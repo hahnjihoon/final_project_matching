@@ -116,7 +116,7 @@ button:hover {
 <div align="right">
 		<button>로그인</button>
 		<button>회원가입</button>		
-		<li><a href="${ pageContext.servletContext.contextPath }/message1.do">메세지</a></li>
+		<li><a href="${ pageContext.servletContext.contextPath }/message1.do">1:1 메신저</a></li>
 
 </div>
 <h1 style="font-family:maintitle; font-size:100px" align="center">Smart Matching</h1>
