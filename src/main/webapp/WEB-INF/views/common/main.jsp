@@ -117,6 +117,7 @@ button:hover {
 		<button>로그인</button>
 		<button>회원가입</button>
 		<button>회원가입</button>
+		<button>회원가입</button>
 
 </div>
 <h1 style="font-family:maintitle; font-size:100px" align="center">Smart Matching</h1>
