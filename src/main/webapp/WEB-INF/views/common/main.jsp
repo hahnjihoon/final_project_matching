@@ -118,7 +118,7 @@ button:hover {
 		<button>회원가입</button>
 		<button>경욱 확인용</button>
 		
-		<button>성제 확인d</button>
+		<button>성제 확인dd</button>
 
 
 </div>
