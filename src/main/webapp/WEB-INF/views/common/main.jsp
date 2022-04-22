@@ -115,18 +115,7 @@ button:hover {
 <body>
 <div align="right">
 		<button>로그인</button>
-<<<<<<< HEAD
 		<button>회원가입</button>		
-		
-=======
-		<button>회원가입</button>
-		<button>경욱 확인용</button>
-		
-		<button>성제 확인ddd</button>
-		
-		<button>찬희 확인</button>
-		
->>>>>>> b86529954a1a02d8193f2ee6b8a03abb656c7352
 
 </div>
 <h1 style="font-family:maintitle; font-size:100px" align="center">Smart Matching</h1>
