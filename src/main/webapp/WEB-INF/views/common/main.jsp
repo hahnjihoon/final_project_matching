@@ -113,6 +113,7 @@ button:hover {
 </style>
 </head>
 <body>
+<c:import url="/WEB-INF/views/common/menubar.jsp" />
 <div align="right">
 		<button>로그인</button>
 		<button>회원가입</button>		

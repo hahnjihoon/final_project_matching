@@ -9,12 +9,15 @@ public class User implements java.io.Serializable{
 	 */
 	private static final long serialVersionUID = -525518509780151973L;
 	
-	private String user_id;
-	private String pwd;
-	private String name;
+	private String userid;
+	private String userpwd;
+	private String username;
 	private String email;
 	private int phone;
 	private String img_name;
+	private String myeyes;
+	private String mynose;
+	private String mymouth;
 	private String nick;
 	private int height;
 	private String gender;
@@ -22,29 +25,34 @@ public class User implements java.io.Serializable{
 	private int age;
 	private String hobby;
 	private String figure;
-	private String job;
+	private String userjob;
 	private String img_name2;
 	private String eyes;
 	private String nose;
 	private String mouth;
-	private java.sql.Date date;
+	private java.sql.Date enroll_date;
 	private String admin;
 	private String block;
-	private String like;
+	private String userlike;
+	private java.sql.Date lastmodified;
+	private String login_ok;
 	
 	public User() {}
 
-	public User(String user_id, String pwd, String name, String email, int phone, String img_name, String nick,
-			int height, String gender, String address, int age, String hobby, String figure, String job,
-			String img_name2, String eyes, String nose, String mouth, Date date, String admin, String block,
-			String like) {
+	public User(String userid, String userpwd, String username, String email, int phone, String img_name, String myeyes,
+			String mynose, String mymouth, String nick, int height, String gender, String address, int age,
+			String hobby, String figure, String userjob, String img_name2, String eyes, String nose, String mouth,
+			Date enroll_date, String admin, String block, String userlike, Date lastmodified, String login_ok) {
 		super();
-		this.user_id = user_id;
-		this.pwd = pwd;
-		this.name = name;
+		this.userid = userid;
+		this.userpwd = userpwd;
+		this.username = username;
 		this.email = email;
 		this.phone = phone;
 		this.img_name = img_name;
+		this.myeyes = myeyes;
+		this.mynose = mynose;
+		this.mymouth = mymouth;
 		this.nick = nick;
 		this.height = height;
 		this.gender = gender;
@@ -52,39 +60,41 @@ public class User implements java.io.Serializable{
 		this.age = age;
 		this.hobby = hobby;
 		this.figure = figure;
-		this.job = job;
+		this.userjob = userjob;
 		this.img_name2 = img_name2;
 		this.eyes = eyes;
 		this.nose = nose;
 		this.mouth = mouth;
-		this.date = date;
+		this.enroll_date = enroll_date;
 		this.admin = admin;
 		this.block = block;
-		this.like = like;
+		this.userlike = userlike;
+		this.lastmodified = lastmodified;
+		this.login_ok = login_ok;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getUserpwd() {
+		return userpwd;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setUserpwd(String userpwd) {
+		this.userpwd = userpwd;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
@@ -109,6 +119,30 @@ public class User implements java.io.Serializable{
 
 	public void setImg_name(String img_name) {
 		this.img_name = img_name;
+	}
+
+	public String getMyeyes() {
+		return myeyes;
+	}
+
+	public void setMyeyes(String myeyes) {
+		this.myeyes = myeyes;
+	}
+
+	public String getMynose() {
+		return mynose;
+	}
+
+	public void setMynose(String mynose) {
+		this.mynose = mynose;
+	}
+
+	public String getMymouth() {
+		return mymouth;
+	}
+
+	public void setMymouth(String mymouth) {
+		this.mymouth = mymouth;
 	}
 
 	public String getNick() {
@@ -167,12 +201,12 @@ public class User implements java.io.Serializable{
 		this.figure = figure;
 	}
 
-	public String getJob() {
-		return job;
+	public String getUserjob() {
+		return userjob;
 	}
 
-	public void setJob(String job) {
-		this.job = job;
+	public void setUserjob(String userjob) {
+		this.userjob = userjob;
 	}
 
 	public String getImg_name2() {
@@ -207,12 +241,12 @@ public class User implements java.io.Serializable{
 		this.mouth = mouth;
 	}
 
-	public java.sql.Date getDate() {
-		return date;
+	public java.sql.Date getEnroll_date() {
+		return enroll_date;
 	}
 
-	public void setDate(java.sql.Date date) {
-		this.date = date;
+	public void setEnroll_date(java.sql.Date enroll_date) {
+		this.enroll_date = enroll_date;
 	}
 
 	public String getAdmin() {
@@ -231,12 +265,28 @@ public class User implements java.io.Serializable{
 		this.block = block;
 	}
 
-	public String getLike() {
-		return like;
+	public String getUserlike() {
+		return userlike;
 	}
 
-	public void setLike(String like) {
-		this.like = like;
+	public void setUserlike(String userlike) {
+		this.userlike = userlike;
+	}
+
+	public java.sql.Date getLastmodified() {
+		return lastmodified;
+	}
+
+	public void setLastmodified(java.sql.Date lastmodified) {
+		this.lastmodified = lastmodified;
+	}
+
+	public String getLogin_ok() {
+		return login_ok;
+	}
+
+	public void setLogin_ok(String login_ok) {
+		this.login_ok = login_ok;
 	}
 
 	public static long getSerialversionuid() {
@@ -245,13 +295,18 @@ public class User implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return "User [user_id=" + user_id + ", pwd=" + pwd + ", name=" + name + ", email=" + email + ", phone=" + phone
-				+ ", img_name=" + img_name + ", nick=" + nick + ", height=" + height + ", gender=" + gender
-				+ ", address=" + address + ", age=" + age + ", hobby=" + hobby + ", figure=" + figure + ", job=" + job
-				+ ", img_name2=" + img_name2 + ", eyes=" + eyes + ", nose=" + nose + ", mouth=" + mouth + ", date="
-				+ date + ", admin=" + admin + ", block=" + block + ", like=" + like + "]";
+		return "User [userid=" + userid + ", userpwd=" + userpwd + ", username=" + username + ", email=" + email
+				+ ", phone=" + phone + ", img_name=" + img_name + ", myeyes=" + myeyes + ", mynose=" + mynose
+				+ ", mymouth=" + mymouth + ", nick=" + nick + ", height=" + height + ", gender=" + gender + ", address="
+				+ address + ", age=" + age + ", hobby=" + hobby + ", figure=" + figure + ", userjob=" + userjob
+				+ ", img_name2=" + img_name2 + ", eyes=" + eyes + ", nose=" + nose + ", mouth=" + mouth
+				+ ", enroll_date=" + enroll_date + ", admin=" + admin + ", block=" + block + ", userlike=" + userlike
+				+ ", lastmodified=" + lastmodified + ", login_ok=" + login_ok + "]";
 	}
+	
+	
 
+	
 	
 	
 

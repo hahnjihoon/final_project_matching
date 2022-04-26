@@ -9,12 +9,13 @@
 	</settings>
 	
 	<typeAliases>		
+		<typeAlias type="com.test.matching.matching.model.vo.User" alias="User" />
 		<typeAlias type="com.test.matching.matching.model.vo.Matching" alias="Matching" />
 
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/matching-mapper.xml" />
-
+		<mapper resource="mappers/user-mapper.xml" />
 	</mappers>
 </configuration>
