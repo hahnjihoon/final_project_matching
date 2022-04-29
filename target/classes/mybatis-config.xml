@@ -9,13 +9,16 @@
 	</settings>
 	
 	<typeAliases>		
-		<typeAlias type="com.test.matching.user.model.vo.User" alias="User" />
-<!-- 		<typeAlias type="com.test.matching.user.model.vo.Matching" alias="Matching" /> -->
-
+		<typeAlias type="com.test.matching.member.model.vo.Member" alias="Member" />
+		<typeAlias type="com.test.matching.notice.model.vo.Notice" alias="Notice" />
+		<typeAlias type="com.test.matching.board.model.vo.Board" alias="Board" />
+		<typeAlias type="com.test.matching.common.SearchDate" alias="SearchDate" />
+		<typeAlias type="com.test.matching.common.Paging" alias="Paging" />
 	</typeAliases>
 	
 	<mappers>
-<!-- 		<mapper resource="mappers/matching-mapper.xml" /> -->
-		<mapper resource="mappers/user-mapper.xml" />
+		<mapper resource="mappers/member-mapper.xml" />
+		<mapper resource="mappers/notice-mapper.xml" />
+		<mapper resource="mappers/board-mapper.xml" />		
 	</mappers>
 </configuration>
