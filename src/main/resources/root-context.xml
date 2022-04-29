@@ -69,7 +69,7 @@
 
 	<aop:config proxy-target-class="true">
 		<aop:pointcut
-			expression="execution(* com.test.first..*Impl.*(..))"
+			expression="execution(* com.test.matching..*Impl.*(..))"
 			id="serviceMethod" />
 		<aop:advisor advice-ref="txAdvice" id="transactionAdviser"
 			pointcut-ref="serviceMethod" />

@@ -6,7 +6,7 @@
 
 <mapper namespace="userMapper">
 	
-	<resultMap id="resultList" type="User">
+	<resultMap type="User" id="resultList">
 		<result property="userid" column="userid" />
 		<result property="userpwd" column="userpwd" />
 		<result property="username" column="username" />
@@ -37,7 +37,7 @@
 
 	</resultMap>
 
-	<select id="selectLogin" parameterType="" resultType="User">
+<!-- 	<select id="selectLogin" parameterType="" resultType="User">
 		select * from users 
 		where userid = #{ userid } and userpwd = #{ userpwd } 
 		and login_ok = 'Y'
@@ -87,15 +87,15 @@
 		select count(userid) 
 		from users 
 		where userid = #{ uid }	
-	</select>
+	</select> -->
 	
-	<select id="selectMatching"  parameterType="string" resultType="resultList">
+	<select id="selectMatching"  parameterType="string" resultMap="resultList">
 		select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby 
-		from users A, (select userid, eyes, nose, mouth, gender from users where userid= 'lchano') B
+		from users A, (select userid, eyes, nose, mouth, gender from users where userid= 'hahnjihoon') B
 		where A.userid = (select distinct A.userid from users where A.myeyes = B.eyes and A.mynose = B.nose and A.mymouth = B.mouth and A.gender != B.gender) and <![CDATA[rownum<=5]]>;
 	</select>
 	
-	<select id="selectAppeal" parameterType="string" resultType="resultList">
+<!-- 	<select id="selectAppeal" parameterType="string" resultType="resultList">
 		select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby
 		from users A, (select userid, gender from users where userid= #{ userid }) B
 		where A.userid = (select distinct A.userid from users where A.gender != B.gender) and <![CDATA[rownum<=5]]>;
@@ -133,6 +133,6 @@
 	
 	<delete id="deleteUser" parameterType="string">
 		delete from users where userid = #{ uid }
-	</delete>	
+	</delete>	 -->
 	
 </mapper>
