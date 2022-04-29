@@ -95,12 +95,12 @@
 		where A.userid = (select distinct A.userid from users where A.myeyes = B.eyes and A.mynose = B.nose and A.mymouth = B.mouth and A.gender != B.gender) and <![CDATA[rownum<=5]]>;
 	</select>
 	
-<!-- 	<select id="selectAppeal" parameterType="string" resultType="resultList">
+ 	<select id="selectAppeal" parameterType="string" resultMap="resultList">
 		select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby
-		from users A, (select userid, gender from users where userid= #{ userid }) B
+		from users A, (select userid, gender from users where userid= 'hahnjihoon') B
 		where A.userid = (select distinct A.userid from users where A.gender != B.gender) and <![CDATA[rownum<=5]]>;
 	</select>
-		
+<!--		
 	<insert id="insertUser" parameterType="User">
 		insert into member (userid, userpwd, username, 
 		email, phone, img_name, myeyes, mynose, mymouth, nick, height,

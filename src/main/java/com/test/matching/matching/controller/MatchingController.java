@@ -42,4 +42,24 @@ public class MatchingController {
 		}
 	}
 	
+	
+	//매력어필 추천  
+		@RequestMapping(value="appeal.do", method=RequestMethod.POST)
+		public String appealMethod(Model model, HttpServletRequest request) {
+			
+			HttpSession session = request.getSession();
+			User loginMember = (User)session.getAttribute("loginMember");
+			String userid = loginMember.getUserid();
+			
+			ArrayList<User> list = matchingService.selectAppeal(userid);  
+			
+			if(userid !=null) {
+				model.addAttribute("user", userid);
+				return "matching/appealView";
+			}else {
+				model.addAttribute("message", "매칭페이지로 이동 실패");
+				return "common/error";
+			}
+		}
+	
 }
