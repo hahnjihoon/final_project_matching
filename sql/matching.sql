@@ -1,16 +1,5 @@
-CREATE TABLE Board (
-	board_num	number primary key	NOT NULL,
-	board_title	varchar2	NULL,
-	board_content	varchar2	NULL,
-	board_date	date	NULL,
-	board_original_filename	varchar2	NULL,
-	board_rename_filename	varchar2	NULL,
-	board_ref	number	NULL,
-	board_reply_ref	number	NULL,
-	board_reply_lev	number	NULL,
-	board_reply_seq	number	NULL,
-	board_writer	varchar2	NOT NULL
-);
+
+-- User DB Script------------------------------------------------------------------
 
 CREATE TABLE Users (
 	userid  	varchar2(100)	primary key,
@@ -39,7 +28,7 @@ CREATE TABLE Users (
 	block	    varchar2(100)   NULL,
 	userlike	    varchar2(100)	NULL,
     lastmodified date default sysdate,
-    login_ok varchar2(30) default 'N'
+    login_ok varchar2(30) default 'Y'
     
 );
 
@@ -72,81 +61,141 @@ from users A, (select userid, gender from users where userid='hahnjihoon') B
 where A.userid = (select distinct A.userid from users where A.gender != B.gender) and rownum<=5;
 commit;
 
+
+-- User DB Script END------------------------------------------------------------------
+
+-- Community DB Script ------------------------------------------------------------------
 CREATE TABLE Community (
-	`com_num`	number	NOT NULL,
-	`com_title`	varchar2	NULL,
-	`com_content`	varchar2	NULL,
-	`com_date`	date	NULL,
-	`com_original_file`	varchar2	NULL,
-	`com_rename_file`	varchar2	NULL,
-	`com_ref`	number	NULL,
-	`com_reply_ref`	number	NULL,
-	`com_reply_levc`	number	NULL,
-	`com_reply_seq`	number	NULL,
-	`open_num`	number	NULL,
-	`open_title`	varchar2	NULL,
-	`open_csv`	varchar2	NULL,
-	`open_date`	date	NULL,
-	`com_writer`	varchar2	NOT NULL
+	com_num	number	primary key,
+	com_content	varchar2(100)	not NULL,
+	com_date	date default sysdate,
+	com_original_file	varchar2(100)	NULL,
+	com_rename_file	varchar2(100)	NULL,
+	com_ref	number	not NULL,
+	com_reply_ref	number	not NULL,
+	com_reply_levc	number	not NULL,
+	com_reply_seq	number	not NULL,
+	open_num	number	not NULL,
+	open_title	varchar2(100)	not NULL,
+	open_csv	varchar2(100)	not NULL,
+	open_date	date default sysdate,
+	com_writer	varchar2(100)	NOT NULL,
+    com_id varchar2(100) unique,
+    constraint fk_com_id foreign key(com_id) references users(userid)
 );
 
-CREATE TABLE `공지사항` (
-	`notice_num`	number	NOT NULL,
-	`notice_title`	varchar2	NOT NULL,
-	`notice_content`	varchar2	NULL,
-	`notice_date`	date	NULL,
-	`board_writer`	varchar2	NOT NULL
+CREATE SEQUENCE com_seq
+INCREMENT BY 1
+START WITH 1
+MINVALUE 1
+MAXVALUE 10000
+NOCYCLE
+NOCACHE
+ORDER ;
+
+
+
+------- Notice DB ----------------------------------------------------------
+CREATE TABLE notice (
+	notice_num	number	primary key,
+	notice_title	varchar2(100)	NOT NULL,
+	notice_content	varchar2(100)	NULL,
+	notice_date	date default sysdate	NULL,
+    notice_id varchar2(100) unique,
+    constraint fk_notice_id foreign key(notice_id) references users(userid)
+);
+drop table users cascade constraints; 
+drop table community cascade constraints; 
+drop table qa cascade constraints; 
+drop table notice cascade constraints; 
+drop table message cascade constraints;
+drop table declares cascade constraints; 
+
+CREATE SEQUENCE not_seq
+INCREMENT BY 1
+START WITH 1
+MINVALUE 1
+MAXVALUE 10000
+NOCYCLE
+NOCACHE
+ORDER ;
+
+insert into notice(notice_id, notice_num, notice_title, notice_content, notice_date) values ('lchano', 1, '타이틀1', '내용1', '2022/04/26');
+
+select nick from users where userid = 'lchano';
+----  notice end ---------------------------
+
+----  qa  DB -----------------------------------
+
+CREATE TABLE qa (
+	qa_num	number	primary key,
+	qa_title	varchar2(100)	NULL,
+	qa_content	varchar2(100)	NULL,
+	qa_date	date default sysdate	NULL,
+	qa_ref	number	NULL,
+	qa_reply_ref	number	NULL,
+	qa_reply_lev	number	NULL,
+	qa_reply_seq	number	NULL,
+    qa_id varchar2(100) unique,
+    constraint fk_qa_nick foreign key(qa_id) references users(userid)
 );
 
-CREATE TABLE `질의응답` (
-	`qa_num`	number	NOT NULL,
-	`qa_title`	varchar2	NULL,
-	`qa_content`	varchar2	NULL,
-	`qa_date`	date	NULL,
-	`qa_ref`	number	NULL,
-	`qa_reply_ref`	number	NULL,
-	`qa_reply_lev`	number	NULL,
-	`qa_reply_seq`	number	NULL,
-	`board_writer`	varchar2	NOT NULL
+CREATE SEQUENCE qa_seq
+INCREMENT BY 1
+START WITH 1
+MINVALUE 1
+MAXVALUE 10000
+NOCYCLE
+NOCACHE
+ORDER ;
+
+---- qa DB END ----------------------------
+
+
+------ declare db ---------------------------
+CREATE TABLE declares (
+	dec_num	number	primary key,
+	dec_content	varchar2(100)	NULL,
+	dec_why	varchar2(100)	NOT NULL,
+	dec_id	varchar2(100)	NOT NULL,
+    constraint fk_dec_nick foreign key(dec_id) references users(userid)
 );
 
-CREATE TABLE `신고하기` (
-	`dec_num`	number	NOT NULL,
-	`dec_content`	varchar2	NULL,
-	`dec_why`	varchar2	NOT NULL,
-	`dec_id`	varchar2	NOT NULL
+CREATE SEQUENCE dec_seq
+INCREMENT BY 1
+START WITH 1
+MINVALUE 1
+MAXVALUE 10000
+NOCYCLE
+NOCACHE
+ORDER ;
+
+
+----- message Db -----------------------------
+CREATE TABLE message (
+	msg_num	number	primary key,
+	msg_csv	varchar2(100)	NULL,
+	msg_nick	varchar2(100)	NOT NULL,
+    msg_id varchar2(100) unique,
+    constraint fk_msg_nick foreign key(msg_id) references users(userid)
 );
 
-CREATE TABLE `메세지` (
-	`msg_num`	number	NOT NULL,
-	`msg_csv`	varchar2	NULL,
-	`msg_nick`	varchar2	NOT NULL
-);
+CREATE SEQUENCE msg_seq
+INCREMENT BY 1
+START WITH 1
+MINVALUE 1
+MAXVALUE 10000
+NOCYCLE
+NOCACHE
+ORDER ;
 
-ALTER TABLE `게시판` ADD CONSTRAINT `PK_게시판` PRIMARY KEY (
-	`board_num`
-);
+----- message Db end-----------------------------
 
-ALTER TABLE `사용자` ADD CONSTRAINT `PK_사용자` PRIMARY KEY (
-	`USER_ID`
-);
+select* from users;
+select* from community;
+select* from declares;
+select* from qa;
+select* from message;
+select* from notice;
 
-ALTER TABLE `커뮤니티` ADD CONSTRAINT `PK_커뮤니티` PRIMARY KEY (
-	`com_num`
-);
 
-ALTER TABLE `공지사항` ADD CONSTRAINT `PK_공지사항` PRIMARY KEY (
-	`notice_num`
-);
-
-ALTER TABLE `질의응답` ADD CONSTRAINT `PK_질의응답` PRIMARY KEY (
-	`qa_num`
-);
-
-ALTER TABLE `신고하기` ADD CONSTRAINT `PK_신고하기` PRIMARY KEY (
-	`dec_num`
-);
-
-ALTER TABLE `메세지` ADD CONSTRAINT `PK_메세지` PRIMARY KEY (
-	`msg_num`
-);
