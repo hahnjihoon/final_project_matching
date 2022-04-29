@@ -37,7 +37,7 @@
 
 	</resultMap>
 
-	<select id="selectLogin" parameterType="" resultType="User">
+	<select id="selectLogin" parameterType="User" resultType="User">
 		select * from users 
 		where userid = #{ userid } and userpwd = #{ userpwd } 
 		and login_ok = 'Y'
@@ -72,11 +72,11 @@
 		</if>		
 	</select>
 	
-	<select id="selectSearchEnrollDate" 
+<!-- 	<select id="selectSearchEnrollDate" 
 		parameterType="SearchDate" resultMap="resultList">
 		select * from users 
 		where enroll_date between #{ begin } and #{ end }		
-	</select>
+	</select> -->
 	
 	<select id="selectSearchLoginOk" parameterType="string" resultMap="resultList">
 		select * from users 
@@ -103,7 +103,7 @@
 	</select>
 	
 	<insert id="insertUser" parameterType="User">
-		insert into member (userid, userpwd, username, 
+		insert into users (userid, userpwd, username, 
 		email, phone, img_name, myeyes, mynose, mymouth, nick, height,
 		gender, address, age, hobby, figure,
 		userjob, img_name2, eyes, nose, mouth,
