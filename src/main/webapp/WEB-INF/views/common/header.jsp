@@ -123,7 +123,7 @@ li{
 			<ul id="menubar">
 				<li><a href="">공지사항</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">이상형추천</a></li>
-				<li><a href="">매력평가</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">매력평가</a></li>
 				<li><a href="">1:1대화방</a></li>
 				<li><a href="">커뮤니티</a></li>
 				<li><a href="">Q&A</a></li>
@@ -138,7 +138,7 @@ li{
 			<ul id="menubar">
 				<li><a href="">공지사항</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
-				<li><a href="">매력평가</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/appealPage.do">매력평가</a></li>
 				<li><a href="">1:1대화방</a></li>
 				<li><a href="">커뮤니티</a></li>
 				<li><a href="">Q&A</a></li>
@@ -153,7 +153,7 @@ li{
 			<ul id="menubar">
 				<li><a href="">공지사항</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
-				<li><a href="">매력평가</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/appealPage.do">매력평가</a></li>
 				<li><a href="">1:1대화방</a></li>
 				<li><a href="">커뮤니티</a></li>
 				<li><a href="">Q&A</a></li>

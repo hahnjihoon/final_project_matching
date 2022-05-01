@@ -30,6 +30,11 @@ public class MatchingController {
 		return "matching/matchingView";
 	}
 	
+	@RequestMapping("appealPage.do")
+	public String moveAppealPage() {
+		return "matching/appealView";
+	}
+	
 	//�̻��� ��õ  
 	@RequestMapping(value="matching.do", method=RequestMethod.POST)
 	public String matchingMethod(Model model, HttpServletRequest request) {

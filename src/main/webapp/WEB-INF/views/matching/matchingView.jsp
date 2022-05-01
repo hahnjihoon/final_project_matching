@@ -181,7 +181,7 @@ height: 300px;
  </head> 
  <body> 
 <c:import url="/WEB-INF/views/common/header.jsp" />
-
+<h1 style="font-family:maintitle; font-size:30px; text-align:center; cursor:pointer; " >이상형추천</h1>
  <div id="slideShow"> 
  <ul class="slides"> 
  <li><img src="${ pageContext.servletContext.contextPath}/resources/images/image11.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li>
