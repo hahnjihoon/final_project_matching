@@ -23,7 +23,7 @@
 
 </script> -->
 <style type="text/css">
-* {margin: 0;padding: 0;}
+/* * {margin: 0;padding: 0;} */
 
 button.top_button {
 	
@@ -52,6 +52,47 @@ button.top_button:hover {
       font-family: "maintitle"
 }
 
+
+
+a{
+	text-decoration:none;
+	color:#404040;
+	
+}
+
+li{
+	list-style:none;
+}
+
+#menu{
+	background:black;
+}
+
+#menu ul{
+	width:1000px;
+	margin:0 auto;
+	overflow:hidden;
+}
+
+#menu ul li{
+	float:left;
+	width:12.5%;
+	height:50px;
+	line-height:50px;
+	text-align:center;
+	background:black;
+	color:white;
+}
+
+#menu ul li a{
+	display:block;
+	color:white;
+}
+
+#menu ul li a:hover{
+	background:white;
+	color:black;
+}
 </style>
 </head>
 <body>
@@ -68,9 +109,58 @@ button.top_button:hover {
 					<button class="top_button" onclick="location.href='logout.do'" style="width:80px;">로그아웃</button>
 			</div>
 		</c:if>
+		
 		<div style = "float:right; width:80%;">
 			<h1 onclick="location.href='main.do'" style="font-family:maintitle; font-size:80px; text-align:center; cursor:pointer; " >Smart Matching</h1>
 		</div><div style="clear:both;"></div>
+		
+		
 	</header>
+	
+	 <!-- 로그인 안 한 경우 -->
+		<c:if test="${ empty sessionScope.loginMember }">
+		<div id="menu">
+			<ul id="menubar">
+				<li><a href="">공지사항</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">이상형추천</a></li>
+				<li><a href="">매력평가</a></li>
+				<li><a href="">1:1대화방</a></li>
+				<li><a href="">커뮤니티</a></li>
+				<li><a href="">Q&A</a></li>
+				<li><a href="">개인정보수정</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/main.do">홈</a></li>
+			</ul>
+		</div>
+		</c:if>
+	
+		<!-- 로그인 한 경우 : 일반회원인 경우 -->
+		<c:if test="${ !empty sessionScope.loginMember and sessionScope.loginMember.admin eq 'N' }">
+			<ul id="menubar">
+				<li><a href="">공지사항</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
+				<li><a href="">매력평가</a></li>
+				<li><a href="">1:1대화방</a></li>
+				<li><a href="">커뮤니티</a></li>
+				<li><a href="">Q&A</a></li>
+				<li><a href="">개인정보수정</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/main.do">홈</a></li>
+			</ul>
+		</c:if>
+		
+		<!-- 로그인 한 경우 : 관리자인 경우 -->
+		<c:if test="${ !empty sessionScope.loginMember and sessionScope.loginMember.admin eq 'Y' }">
+		<div id="menu">
+			<ul id="menubar">
+				<li><a href="">공지사항</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
+				<li><a href="">매력평가</a></li>
+				<li><a href="">1:1대화방</a></li>
+				<li><a href="">커뮤니티</a></li>
+				<li><a href="">Q&A</a></li>
+				<li><a href="">개인정보수정</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/main.do">홈</a></li>
+			</ul>
+		</div>	
+		</c:if>
 </body>
 </html>

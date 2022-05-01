@@ -24,7 +24,13 @@ public class MatchingController {
 	@Autowired
 	private MatchingService matchingService;
 	
-	//ÀÌ»óÇü ÃßÃµ  
+	
+	@RequestMapping("matchingPage.do")
+	public String moveLoginPage() {
+		return "matching/matchingView";
+	}
+	
+	//ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ  
 	@RequestMapping(value="matching.do", method=RequestMethod.POST)
 	public String matchingMethod(Model model, HttpServletRequest request) {
 		
@@ -38,13 +44,13 @@ public class MatchingController {
 			model.addAttribute("user", userid);
 			return "matching/matchingView";
 		}else {
-			model.addAttribute("message", "¸ÅÄªÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆÐ");
+			model.addAttribute("message", "ï¿½ï¿½Äªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 	
 	
-	//¸Å·Â¾îÇÊ ÃßÃµ  
+	//ï¿½Å·Â¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ  
 		@RequestMapping(value="appeal.do", method=RequestMethod.POST)
 		public String appealMethod(Model model, HttpServletRequest request) {
 			
@@ -58,7 +64,7 @@ public class MatchingController {
 				model.addAttribute("user", userid);
 				return "matching/appealView";
 			}else {
-				model.addAttribute("message", "¸ÅÄªÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆÐ");
+				model.addAttribute("message", "ï¿½ï¿½Äªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½");
 				return "common/error";
 			}
 		}
