@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="communityMapper">
+
+	<resultMap type="community" id="resultcommunity">
+		<id column="com_num" property="com_num" />
+		<result column="com_writer" property="com_writer" />
+		<result column="com_content" property="com_content" />
+		<result column="com_original_filename" property="com_original_filename" />
+		<result column="com_rename_filename" property="com_rename_filename" />
+		<result column="com_date" property="com_date" />
+		<result column="com_lev" property="com_lev" />
+		<result column="com_ref" property="com_ref" />
+		<result column="com_reply_ref" property="com_reply_ref" />
+		<result column="com_reply_seq" property="com_reply_seq" />
+		<result column="com_readcount" property="com_readcount" />
+	</resultMap>
+	
+	<resultMap type="com" id="resultTop3">
+		<result column="com_num" property="com_num" />
+		<result column="com_content" property="com_content" />
+		<result column="com_readcount" property="com_readcount" />
+	</resultMap>
+
+	<!-- 비교연산자를 쿼리문에 그냥 사용하면 
+		태그 앨리먼트 꺽쇠괄호 등(<, >, &)과 혼동하는 문제가 발생할 수 있음.
+		이 문제를 미연에 방지하기 위해 xml 코드 중 xml parser 에 의해
+		해석하지 말고, 문장 그대로 해석하라는 뜻으로
+		<![CDATA[ 쿼리문장 ]]> 사용함
+	 -->
+
+	<select id="getListCount" resultType="_int">
+		select count(*) from community
+	</select>	
+	
+	<select id="selectList" 
+	parameterType="Paging" resultMap="resultcom">
+		<![CDATA[
+			SELECT *  
+			FROM (SELECT ROWNUM RNUM, com_NUM,com_WRITER,   
+			               com_CONTENT, com_ORIGINAL_FILENAME,  
+			               com_RENAME_FILENAME, com_DATE, com_LEV, 
+			               com_REF, com_REPLY_REF, com_REPLY_SEQ, 
+			               com_READCOUNT 
+			       FROM (SELECT * FROM com 
+			              ORDER BY com_REF DESC, com_REPLY_REF DESC, 
+			              com_LEV ASC,  com_REPLY_SEQ ASC))  
+			where rnum >= #{startRow} and rnum <= #{endRow}
+		]]>
+	</select>
+	
+	<insert id="insertOrigincom" parameterType="com" >
+		insert into community 	(com_num,com_writer,
+				com_content, com_original_filename, 
+				com_rename_filename, com_date, 
+				com_lev, com_ref, com_reply_ref,
+				com_reply_seq,  com_readcount)	
+		values ((select max(com_num) + 1 from community ), 
+				 #{com_writer},#{com_content},#{com_original_filename}, 
+				#{com_rename_filename}, 
+				sysdate, 1, 
+				(select max(com_num) + 1 from community ), 
+				default, default, default)		
+	</insert>
+
+	<update id="addReadCount" parameterType="_int">
+		update community 
+		set com_readcount = com_readcount + 1 
+		where com_num = #{com_num}
+	</update>
+
+	<select id="selectcom" parameterType="int" resultMap="resultcom">
+		select * from community 
+		where com_num = #{com_num}
+	</select>	
+	
+	<update id="updateReplySeq1" parameterType="com" >
+		update community  
+		set com_reply_seq = com_reply_seq + 1 
+		where com_ref = #{com_ref} 
+		and com_lev = #{com_lev}		
+	</update>
+	
+	<update id="updateReplySeq2" parameterType="com" >
+		update community  
+		set com_reply_seq = com_reply_seq + 1 
+		where com_ref = #{com_ref} 
+		and com_lev = #{com_lev} 
+		and com_reply_ref = 	#{com_reply_ref}
+	</update>
+	
+	<insert id="insertReply1" parameterType="com">
+		insert into community  (com_num, com_writer,
+				com_content, com_original_filename, 
+				com_rename_filename, com_date, 
+				com_lev, com_ref, com_reply_ref,
+				com_reply_seq, com_readcount)
+		values ((select max(com_num) + 1 from community ), 
+				#{com_writer},#{com_content},   
+				null, null, sysdate, 2, #{com_ref}, 
+				(select max(com_num) + 1 from community ), 
+				#{com_reply_seq}, default)		
+	</insert>
+	
+	<insert id="insertReply2" parameterType="com">
+		insert into community  (com_num,  com_writer,
+				com_content, com_original_filename, 
+				com_rename_filename, com_date, 
+				com_lev, com_ref, com_reply_ref,
+				com_reply_seq, com_readcount)
+		values ((select max(com_num) + 1 from community ), 
+				#{com_writer},#{com_content},  
+				null, null, sysdate, 3, #{com_ref}, 
+				#{com_reply_ref}, #{com_reply_seq}, default)
+	</insert>
+
+	<delete id="deletecom" parameterType="com">
+		delete from community  
+		<if test="com_lev == 1">
+			where com_ref = #{com_num}
+		</if>
+		<if test="com_lev == 2">
+			where com_reply_ref = #{com_num}
+		</if>
+		<if test="com_lev == 3">
+			where com_num = #{com_num}
+		</if>		
+	</delete>
+	
+	<update id="updateReply" parameterType="com">
+		update community  
+		set com_content = #{com_content}, 
+		where com_num = #{com_num}						
+	</update>
+	
+	<update id="updateOrigin" parameterType="com">
+		update community  
+		set com_content = #{com_content}, 
+			<if test="com_original_filename != null">
+			com_original_filename = #{com_original_filename}, 
+			com_rename_filename = #{com_rename_filename} 
+			</if>
+			<if test="com_original_filename == null">
+			, 
+			com_original_filename = null, 
+			com_rename_filename = null 
+			</if>
+		where com_num = #{com_num}
+	</update>
+	
+</mapper>

@@ -3,13 +3,15 @@ package com.test.matching.common;
 public class Paging {
 	private int startRow;
 	private int endRow;
+	private String userid;
 	
 	public Paging() {}
 
-	public Paging(int startRow, int endRow) {
+	public Paging(int startRow, int endRow, String userid) {
 		super();
 		this.startRow = startRow;
 		this.endRow = endRow;
+		this.userid = userid;
 	}
 
 	public int getStartRow() {
@@ -28,8 +30,21 @@ public class Paging {
 		this.endRow = endRow;
 	}
 
+	
+	
+	
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
 	@Override
 	public String toString() {
-		return "Paging [startRow=" + startRow + ", endRow=" + endRow + "]";
-	}	
+		return "Paging [startRow=" + startRow + ", endRow=" + endRow + ", userid=" + userid + "]";
+	}
+
+
 }
