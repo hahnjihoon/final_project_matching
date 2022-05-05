@@ -200,8 +200,8 @@ height: 300px;
  </p> 
  </div> 
  
-<section>
-<div id="bb" style="float:left; border: 1px solid navy; padding: 5px; margin: 5px;">
+<section text-align="center">
+<div id="bb" style="display:inline-block; border: 1px solid navy; padding: 5px; margin: 5px;">
 <h4>이미지 클릭하여 해당인물 정보보기</h4>
 <table id="aa" border="1" cellspacing="0">
 </table>

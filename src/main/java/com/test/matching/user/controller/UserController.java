@@ -19,17 +19,17 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	// ºäÆäÀÌÁö ÀÌµ¿Ã³¸®¿ë¸Þ¼Òµå --------------------------------------------------
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½Ã³ï¿½ï¿½ï¿½ï¿½Þ¼Òµï¿½ --------------------------------------------------
 	@RequestMapping("loginPage.do")
 	public String moveLoginPage() {
 		return "user/loginPage";
 	}
 
-	// ·Î±×ÀÎÃ³¸®¿ë¸Þ¼Òµå
+	// ï¿½Î±ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½Þ¼Òµï¿½
 	@RequestMapping(value = "login.do", method = RequestMethod.POST)
 	public String loginMethod(HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		// ¼­ºñ½º·Î Àü´ÞÇÒ ¸â¹ö°´Ã¼»ý¼º
+		// ï¿½ï¿½ï¿½ñ½º·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½
 		User user = new User();
 		user.setUserid(request.getParameter("userid"));
 		user.setUserpwd(request.getParameter("userpwd"));
@@ -37,54 +37,54 @@ public class UserController {
 		User loginMember = userService.selectLogin(user);
 		String viewName = null;
 		if (loginMember != null) {
-			// ·Î±×ÀÎ»óÅÂ°ü¸®¹æ¹ý : »óÅÂ°ü¸® ¸ÅÄ¿´ÏÁò ÀÌ¶ó°íÇÔ
-			// ¼¼¼Ç ÄíÅ° urlÀçÀÛ¼º 3°¡Áö¹æ¹ýÀÖÀ½
+			// ï¿½Î±ï¿½ï¿½Î»ï¿½ï¿½Â°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å° urlï¿½ï¿½ï¿½Û¼ï¿½ 3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			HttpSession session = request.getSession();
 			// getSession() == getSession(true)
-			// ¼¼¼Ç°´Ã¼°¡ ¾øÀ¸¸é ÀÚµ¿À¸·Î »ý¼º½ÃÅ´
-			// ¼¼¼Ç°´Ã¼°¡ ÀÖÀ¸¸é ÇØ´ç¼¼¼ÇÀÇ Á¤º¸¸¦ ¸®ÅÏ¹ÞÀ½
+			// ï¿½ï¿½ï¿½Ç°ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å´
+			// ï¿½ï¿½ï¿½Ç°ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ç¼¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï¿½
 			session.setAttribute("loginMember", loginMember);
-			viewName = "matching/matchingView";
-		} else { // ·Î±×ÀÎ ½ÇÆÐ½Ã
-			model.addAttribute("message", "·Î±×ÀÎ ½ÇÆÐ : ¾ÆÀÌµð³ª ºñ¹ø È®ÀÎÇÏ½Ã¿À");
+			viewName = "common/main2";
+		} else { // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð½ï¿½
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï½Ã¿ï¿½");
 			viewName = "common/error";
 		}
 
 		return viewName;
 	}
 
-	// ·Î±×¾Æ¿ô Ã³¸®¿ë
+	// ï¿½Î±×¾Æ¿ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("logout.do")
 	public String logoutMethod(HttpServletRequest request, Model model) {
-		// ·Î±×ÀÎÇÒ ¶§ »ý¼ºÇÑ ¼¼¼Ç°´Ã¼¸¦ ¾ø¾Ú
+		// ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç°ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		HttpSession session = request.getSession(false);
-		// ¼¼¼Ç °´Ã¼°¡ ÀÖÀ¸¸é, ¸®ÅÏ¹ÞÀ½
-		// ¼¼¼Ç °´Ã¼°¡ ¾øÀ¸¸é, null ¸®ÅÏµÊ
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, null ï¿½ï¿½ï¿½Ïµï¿½
 		if (session != null) {
-			session.invalidate(); // ÇØ´ç ¼¼¼Ç°´Ã¼ ¾ø¾Ú
+			session.invalidate(); // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½Ç°ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 			return "common/main";
 		} else {
-			model.addAttribute("message", "·Î±×ÀÎ ¼¼¼ÇÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 
-	// È¸¿ø°¡ÀÔÆäÀÌÁö ÀÌµ¿¿ë ¸Þ¼Òµå
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	@RequestMapping("enroll.do")
 	public String enrollPage() {
-		return "user/enrollPage"; // ³»º¸³¾ ºäÆÄÀÏ¸í ¸®ÅÏ
+		return "user/enrollPage"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
-	// IDÃ£±â ÆäÀÌÁö ÀÌµ¿¿ë ¸Þ¼Òµå
+	// IDÃ£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	@RequestMapping("findId.do")
 	public String findIdPage() {
-		return "user/findIdPage"; // ³»º¸³¾ ºäÆÄÀÏ¸í ¸®ÅÏ
+		return "user/findIdPage"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
-	// ºñ¹Ð¹øÈ£Ã£±â ÀÌµ¿¿ë ¸Þ¼Òµå
+	// ï¿½ï¿½Ð¹ï¿½È£Ã£ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	@RequestMapping("findPwd.do")
 	public String findPwdPage() {
-		return "user/findPwdPage"; // ³»º¸³¾ ºäÆÄÀÏ¸í ¸®ÅÏ
+		return "user/findPwdPage"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 	
 	

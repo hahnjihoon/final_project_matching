@@ -197,18 +197,21 @@ height: 300px;
  <span class="next" onclick = "delete_row()">&rang;</span> 
  </p> 
  </div> 
- 
-<section>
-<div id="bb" style="float:left; border: 1px solid navy; padding: 5px; margin: 5px;">
-<h4>이미지 클릭하여 해당인물 정보보기</h4>
-<table id="aa" border="1" cellspacing="0">
+
+
+<section text-align="center">
+<div align="center" id="bb" style="display:inline-block; border: 1px solid navy; padding: 5px; margin: 5px;">
+<h4 align="center">이미지 클릭하여 해당인물 정보보기</h4>
+<table align="center" id="aa" border="1" cellspacing="0">
 </table>
 </div>
 </section>
+
  </body>
   
   
-  <script>
+
+<script type="text/javascript">
  const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
  const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
  let currentIdx = 0; //현재 슬라이드 index
@@ -285,5 +288,6 @@ height: 300px;
      moveSlide(currentIdx + 1);
    }
  });
+ 
  </script>
-   </html>
+ </html>

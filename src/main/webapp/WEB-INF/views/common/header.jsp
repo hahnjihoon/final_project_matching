@@ -121,7 +121,7 @@ li{
 		<c:if test="${ empty sessionScope.loginMember }">
 		<div id="menu">
 			<ul id="menubar">
-				<li><a href="">공지사항</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">이상형추천</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">매력평가</a></li>
 				<li><a href="">1:1대화방</a></li>
@@ -135,32 +135,34 @@ li{
 	
 		<!-- 로그인 한 경우 : 일반회원인 경우 -->
 		<c:if test="${ !empty sessionScope.loginMember and sessionScope.loginMember.admin eq 'N' }">
+			<div id="menu">
 			<ul id="menubar">
-				<li><a href="">공지사항</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/appealPage.do">매력평가</a></li>
 				<li><a href="">1:1대화방</a></li>
 				<li><a href="">커뮤니티</a></li>
 				<li><a href="">Q&A</a></li>
 				<li><a href="">개인정보수정</a></li>
-				<li><a href="${ pageContext.servletContext.contextPath }/main.do">홈</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/main2.do">홈</a></li>
 			</ul>
+			</div>
 		</c:if>
 		
 		<!-- 로그인 한 경우 : 관리자인 경우 -->
 		<c:if test="${ !empty sessionScope.loginMember and sessionScope.loginMember.admin eq 'Y' }">
-		<div id="menu">
+			<div id="menu">
 			<ul id="menubar">
-				<li><a href="">공지사항</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
 				<li><a href="${ pageContext.servletContext.contextPath }/appealPage.do">매력평가</a></li>
 				<li><a href="">1:1대화방</a></li>
 				<li><a href="">커뮤니티</a></li>
 				<li><a href="">Q&A</a></li>
 				<li><a href="">개인정보수정</a></li>
-				<li><a href="${ pageContext.servletContext.contextPath }/main.do">홈</a></li>
+				<li><a href="${ pageContext.servletContext.contextPath }/main2.do">홈</a></li>
 			</ul>
-		</div>	
+			</div>
 		</c:if>
 		
 		
