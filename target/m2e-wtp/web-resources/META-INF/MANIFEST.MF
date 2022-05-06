@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
-Built-By: sin24
-Build-Jdk: 1.8.0_311
+Build-Jdk-Spec: 16
 Created-By: Maven Integration for Eclipse
 

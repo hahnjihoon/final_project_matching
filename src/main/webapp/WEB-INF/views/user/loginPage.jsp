@@ -179,10 +179,10 @@
 				<form action="login.do" method="post">					
 					<h2>로그인</h2>
 					<div class="login_sns">
-						<a	href="https://accounts.google.com/signin/v2/identifier?hl=ko&passive=true&continue=https%3A%2F%2Fwww.google.com%2Fwebhp%3Fhl%3Dko%26sa%3DX%26ved%3D0ahUKEwiwsd7e7633AhV1yosBHZ5uDSYQPAgI&ec=GAZAmgQ&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
+						<a	onclick="location.href='naverLogin.do'">
 							<img class="google" src="resources/images/googleLogo.png"></img>
 						</a> 
-						<a href="https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com">
+						<a onclick="location.href='naverLogin.do'">
 							<img class="naver" src="resources/images/naverLogo.png"></img>
 						</a>
 					</div>
@@ -196,17 +196,17 @@
 					</div>
 					<div class="login_etc">
 						<div class="forgot_id">
-							<p onClick="location.href='findId.do'" >아이디를 잊으셨나요?<p>
+							<p onclick="location.href='findId.do'" >아이디를 잊으셨나요?<p>
 						</div>
 						<div class="forgot_pw">
-							<p onClick="location.href='findPwd.do'">비밀번호를 잊으셨나요?</p>
+							<p onclick="location.href='findPwd.do'">비밀번호를 잊으셨나요?</p>
 						</div>
 					</div>
 					<div class="submit">
 							<input type="submit" value="로그인">
 					</div>
 					<div class="enroll">
-						<input onClick="location.href='enroll.do'" type="submit" value="회원 가입">
+						<input  onclick="location.href='enrollPage.do'" type="text" value="회원 가입" style="text-align:center;">
 					</div>
 				</form>
 			</div>

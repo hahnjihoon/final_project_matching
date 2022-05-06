@@ -11,12 +11,7 @@ header {
 	margin: 0;
 	padding: 0;
 }
-header h1#logo {
-	font-size: 36pt;
-	font-style: italic;
-	color: navy;
-	text-shadow: 2px 2px 2px gray;
-}
+
 header ul#menubar {
 	list-style: none;
 	position: relative;
@@ -60,10 +55,9 @@ hr { clear: both; }
 </style>
 </head>
 <body>
-<header>
-	<h1 id="logo">Spring Project : first</h1>
+<header>	
 	<!-- 로그인 안 한 경우 -->
-	<c:if test="${ empty sessionScope.loginMember }">
+	<c:if test="${ empty sessionScope.loginUser }">
 		<ul id="menubar">
 			<li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
 			<li><a href="${ pageContext.servletContext.contextPath }/blist.do?page=1">게시글</a></li>
@@ -76,7 +70,7 @@ hr { clear: both; }
 		</ul>
 	</c:if>
 	<!-- 로그인 한 경우 : 관리자인 경우 -->
-	<c:if test="${ !empty sessionScope.loginMember and sessionScope.loginMember.admin eq 'Y' }">
+	<c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.admin eq 'Y' }">
 		<ul id="menubar">
 			<li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항관리</a></li>
 			<li><a href="${ pageContext.servletContext.contextPath }/blist.do?page=1">게시글관리</a></li>
@@ -90,7 +84,7 @@ hr { clear: both; }
 	<!-- el 에서의 절대경로 표기 : 
 	    "${ pageContext.servletContext.contextPath }/대상이름.do" -->
 	<!-- 로그인 한 경우 : 일반회원인 경우 -->
-	<c:if test="${ !empty sessionScope.loginMember and sessionScope.loginMember.admin eq 'N' }">
+	<c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.admin eq 'N' }">
 		<ul id="menubar">
 			<li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
 			<li><a href="${ pageContext.servletContext.contextPath }/blist.do?page=1">게시글</a></li>

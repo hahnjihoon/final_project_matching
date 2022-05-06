@@ -29,6 +29,11 @@ public class UserServiceImpl implements UserService {
 	   public int selectDupCheckId(String userid) {
 	      return userDao.selectDupCheckId(userid);
 	   }
+	   
+	   @Override
+	   public int selectDupCheckNick(String nick) {
+	      return userDao.selectDupCheckNick(nick);
+	   }
 
 	   @Override
 	   public int updateUser(User user) {

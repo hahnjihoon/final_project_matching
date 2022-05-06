@@ -8,12 +8,21 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.8</java-version>
+		<java-version>11</java-version>
 		<org.springframework-version>5.2.9.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.9.6</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
+		<!-- java 11 -->
+		<!-- https://mvnrepository.com/artifact/javax.xml/jaxb-api -->
+		<dependency>
+		    <groupId>javax.xml</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		    <version>2.1</version>
+		</dependency>
+		
+	
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -40,22 +49,21 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>	
 		
-		
-		<!-- AspectJ runtime 추가 -->
+		<!-- AspectJ Runtime 추가 -->
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
 		<dependency>
 		    <groupId>org.aspectj</groupId>
 		    <artifactId>aspectjrt</artifactId>
-		    <version>${org.aspectj-version}</version>
+		    <version>${org.aspectj-version}</version>		    
 		</dependency>
 		
-		<!-- AspectJ weaver 추가 -->
+		<!-- AspectJ Weaver 추가 -->
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 		<dependency>
 		    <groupId>org.aspectj</groupId>
 		    <artifactId>aspectjweaver</artifactId>
-		    <version>${org.aspectj-version}</version>
-		</dependency>		
+		    <version>${org.aspectj-version}</version>		    
+		</dependency>
 		
 		<!-- proxy 제어를 위한 cglib 추가 -->
 		<!-- https://mvnrepository.com/artifact/cglib/cglib -->
@@ -64,7 +72,6 @@
 		    <artifactId>cglib</artifactId>
 		    <version>2.2.2</version>
 		</dependency>
-		
 		
 		<!-- Logging -->
 		<dependency>
@@ -108,9 +115,8 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
-
-		<!-- 로그상태확인 : 실행되는쿼리문,resultset결과값 에대한 정보를볼수있도록 -->
+		
+		<!-- 실행되는 쿼리문과 resultset 결과값을 로그로 출력 처리 -->
 		<!-- log4jdbc-remix 라이브러리 추가 -->
 		<!-- https://mvnrepository.com/artifact/org.lazyluke/log4jdbc-remix -->
 		<dependency>
@@ -118,7 +124,7 @@
 		    <artifactId>log4jdbc-remix</artifactId>
 		    <version>0.2.7</version>
 		</dependency>
-
+		
 
 		<!-- @Inject -->
 		<dependency>
@@ -128,27 +134,52 @@
 		</dependency>
 				
 		<!-- Servlet -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<!-- <dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
+		    <scope>provided</scope>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
+		</dependency>		
+		
+		<!-- <dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
 			<scope>provided</scope>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
+		<dependency>
+		    <groupId>javax.servlet.jsp</groupId>
+		    <artifactId>jsp-api</artifactId>
+		    <version>2.2</version>
+		    <scope>provided</scope>
 		</dependency>
+		
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
 	
-	
-	
-		<!-- MyBatis Library connect Spring -->
+		<!-- MyBatis -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
@@ -163,13 +194,50 @@
 		    <version>2.0.6</version>
 		</dependency>
 		
-		<!-- Oracle 18c xe -->
+		<!-- oracle 18c xe -->
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
 		    <artifactId>ojdbc8</artifactId>
 		    <version>18.3.0.0</version>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ojdbc10</artifactId>
+		    <version>19.10.0.0</version>
 		</dependency>
+		
+		<!-- oracle cloud wallet -->	
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/oraclepki -->
+		<dependency>
+		    <groupId>com.oracle.database.security</groupId>
+		    <artifactId>oraclepki</artifactId>
+		    <version>19.10.0.0</version>
+		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_cert -->
+		<dependency>
+		    <groupId>com.oracle.database.security</groupId>
+		    <artifactId>osdt_cert</artifactId>
+		    <version>19.10.0.0</version>
+		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_core -->
+		<dependency>
+		    <groupId>com.oracle.database.security</groupId>
+		    <artifactId>osdt_core</artifactId>
+		    <version>19.10.0.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <version>4.0.3</version>
+		</dependency>
+		
 		
 		<!-- Spring jdbc module -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
@@ -177,9 +245,9 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-jdbc</artifactId>
 		    <version>${org.springframework-version}</version>
-		</dependency>
-	
-		<!-- DBCP database library connection pool -->
+		</dependency>		
+		
+		<!-- DBCP : DataBase Connetion Pool -->
 		<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
 		<dependency>
 		    <groupId>commons-dbcp</groupId>
@@ -187,17 +255,14 @@
 		    <version>1.4</version>
 		</dependency>
 		
-		
-		<!-- 패스워드 암호화 처리 : 스프링 시큐리티 모듈 사용 -->
-		<!-- spring security core -->
+		<!-- 패스워드 암호화 처리 : 스프링 시큐리티 모듈 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
 		    <version>4.2.13.RELEASE</version>
 		</dependency>
-		
-		<!-- spring security web -->
+				
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
@@ -205,7 +270,6 @@
 		    <version>4.2.13.RELEASE</version>
 		</dependency>
 		
-		<!-- spring security config -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
@@ -213,7 +277,15 @@
 		    <version>4.2.13.RELEASE</version>
 		</dependency>
 		
-		<!-- 파일 업로드 모듈 -->
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.12</version>
+		    <scope>provided</scope>
+		</dependency>		
+		
+		<!-- 파일업로드 -->
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 		    <groupId>commons-fileupload</groupId>
@@ -228,15 +300,16 @@
 		    <version>2.6</version>
 		</dependency>
 		
-		<!-- JsonView : 제이슨을 다루키위한 클래스를 제공받을 라이브러리 -->
+		<!-- JsonView -->
+		<!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
 		<!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib-ext-spring -->
 		<dependency>
 		    <groupId>net.sf.json-lib</groupId>
 		    <artifactId>json-lib-ext-spring</artifactId>
 		    <version>1.0.2</version>
 		</dependency>
-		
-		<!-- JsonObject 클래스 : 제이슨을다루는클래스 -->
+
+		<!-- JsonObject -->
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 		    <groupId>com.googlecode.json-simple</groupId>
@@ -244,8 +317,7 @@
 		    <version>1.1.1</version>
 		</dependency>
 		
-		
-		<!-- Jackson 사용시 필요라이브러리 -->
+		<!-- Jackson 사용한다면 -->	
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
@@ -253,7 +325,6 @@
 		    <version>2.9.8</version>
 		</dependency>
 		
-		<!-- maven compiler -->
 		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 		<dependency>
 		    <groupId>org.apache.maven.plugins</groupId>
@@ -261,14 +332,25 @@
 		    <version>3.8.1</version>
 		</dependency>
 		
-		
+			
+	
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.7</version>
+			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>  
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${org.springframework-version}</version>
+		    <scope>test</scope>
+		</dependency>
+				
+		      
 	</dependencies>
     <build>
         <plugins>
@@ -289,15 +371,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
+            <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>3.3.1</version>
+			</plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

@@ -30,6 +30,10 @@ public class UserDao {
 	   public int selectDupCheckId(String userid) {
 	      return session.selectOne("userMapper.selectCheckId", userid);
 	   }
+	   
+	   public int selectDupCheckNick(String nick) {
+		      return session.selectOne("userMapper.selectCheckNick", nick);
+	   }
 
 	   public int updateUser(User user) {
 	      return session.update("userMapper.updateUser", user);

@@ -9,6 +9,7 @@ public interface UserService {
 	   User selectLogin(User user);
 	   int insertUser(User user);
 	   int selectDupCheckId(String userid); //회원가입시 아이디중복체크메소드
+	   int selectDupCheckNick(String nick); //회원가입시 닉네임중복체크메소드
 	   int updateUser(User user);
 	   int deleteUser(String userid);
 	   ArrayList<User> selectList();

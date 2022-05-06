@@ -49,7 +49,7 @@
 	
 	<select id="selectUser" parameterType="string" resultType="User">
 		select * from users 	
-		where userid = #{ uid }	
+		where userid = #{ userid }	
 	</select>
 	
 	<select id="selectSearchUserid" parameterType="string" resultMap="resultList">
@@ -86,7 +86,13 @@
 	<select id="selectCheckId" parameterType="string" resultType="_int">
 		select count(userid) 
 		from users 
-		where userid = #{ uid }	
+		where userid = #{ userid }	
+	</select>
+	
+	<select id="selectCheckNick" parameterType="string" resultType="_int">
+		select count(nick) 
+		from users 
+		where nick = #{ nick }	
 	</select>
 	
 	<select id="selectMatching"  parameterType="string" resultMap="resultList">
@@ -117,12 +123,13 @@
 
 	<update id="updateUser" parameterType="User">
 		update users 
-		set 	userpwd = #{ userpwd },
-			email = #{ email }, phone = # {phone}, 			
-			height = # { height }, address = #{ address },
-			age = #{ age }, 
-			hobby = #{ hobby }, figure = #{ figure }, userjob = #{ userjob }
-			img_name2 = #{ img_name2 }
+		set userpwd = #{ userpwd },
+			email = #{ email }, phone = #{ phone }, img_name = #{ img_name },
+			myeyes = #{ myeyes }, mynose = #{ mynose }, mymouth = #{ mymouth }, 	
+			height = #{ height }, address = #{ address }, age = #{ age }, 
+			hobby = #{ hobby }, figure = #{ figure }, userjob = #{ userjob },
+			img_name2 = #{ img_name2 },
+			eyes = #{ eyes }, nose = #{ nose }, mouth = #{ mouth }
 		where userid = #{ userid }
 	</update>
 	

@@ -9,7 +9,7 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- DataSource 등록 -->
-	<bean class="org.apache.commons.dbcp.BasicDataSource"
+	<!-- <bean class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" id="realDataSource">
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
@@ -17,8 +17,23 @@
 			value="jdbc:oracle:thin:@localhost:1521:xe" />
 		<property name="username" value="c##student2" />
 		<property name="password" value="student2" />
-	</bean>
+	</bean> -->
 	
+	<!-- oracle cloud db 연결 -->
+	<bean class="com.zaxxer.hikari.HikariConfig" id="hikariConfig">
+		<property name="driverClassName"
+			value="oracle.jdbc.OracleDriver" />
+		<property name="jdbcUrl"
+			value="jdbc:oracle:thin:@kyungwooklee_high?TNS_ADMIN=C:\\Wallet_ORADB" />
+		<property name="username" value="admin" />
+		<property name="password" value="Sksdkfdkdigo1!" />
+	</bean>
+
+	<bean class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close" id="realDataSource">
+		<constructor-arg ref="hikariConfig"></constructor-arg>
+	</bean>
+
 	<!-- 값이 적용되어 실행되는 query 문과 resultSet 결과값을 
 	    로그로 출력되게 하려면 dataSource 에 로그 연결 설정을
 	    해야 함 -->
@@ -41,7 +56,8 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean class="org.mybatis.spring.SqlSessionTemplate">
+	<bean class="org.mybatis.spring.SqlSessionTemplate" 
+		name="sqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSession"></constructor-arg>
 	</bean>
 	
@@ -74,7 +90,6 @@
 		<aop:advisor advice-ref="txAdvice" id="transactionAdviser"
 			pointcut-ref="serviceMethod" />
 	</aop:config>
-	
 	
 	
 </beans>
