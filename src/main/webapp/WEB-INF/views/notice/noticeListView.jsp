@@ -95,7 +95,7 @@ function showDiv(){
 			<td>${ n.notice_num }</td>
 			<!-- 공지제목클릭시 상세보기로 넘어가게처리 -->
 			<c:url var="ndt" value="/ndetail.do">
-				<c:param name="noticeno" value="${ n.notice_num }" />
+				<c:param name="notice_num" value="${ n.notice_num }" />
 			</c:url>
 			<td><a href="${ ndt }">${ n.notice_title }</a></td>
 			<td>${ n.notice_id }</td>

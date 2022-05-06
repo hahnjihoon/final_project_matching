@@ -113,8 +113,8 @@ public class NoticeController {
 	
 	//공지글상세보기요청처리용
 	@RequestMapping("ndetail.do")
-	public String noticeDetailMethod(@RequestParam("noticeno") int noticeno, Model model, HttpSession session) {
-		Notice notice = noticeService.selectNotice(noticeno);
+	public String noticeDetailMethod(@RequestParam("notice_num") int notice_num, Model model, HttpSession session) {
+		Notice notice = noticeService.selectNotice(notice_num);
 		
 		if(notice != null) {
 			model.addAttribute("notice", notice);
