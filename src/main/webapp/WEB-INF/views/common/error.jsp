@@ -13,7 +13,7 @@
 	context : application 을 의미함
 	root 에서 출발시키는 경로를 웹에서 절대경로라고 함
  -->
-<c:import url="/WEB-INF/views/common/menubar.jsp" />
+<c:import url="/WEB-INF/views/common/header.jsp" />
 <hr>
 <h1>에러 페이지</h1>
 <c:set var="e" value="<%= exception %>" />

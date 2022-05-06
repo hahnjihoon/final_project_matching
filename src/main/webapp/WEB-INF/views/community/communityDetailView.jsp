@@ -17,16 +17,16 @@
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet"
-   href="${ pageContext.request.contextPath}/resources/css/board.css">
+   href="${ pageContext.request.contextPath}/resources/css/community.css">
 <title></title>
 <script type="text/javascript">
 	function showWriterForm() {
-		location.href = "${ pageContext.servletContext.contextPath}/bwform.do";
+		location.href = "${ pageContext.servletContext.contextPath}/cwform.do";
 	}
 </script>
 </head>
 <body>
-	<c:import url="/WEB-INF/views/common/menubar.jsp" />
+	<c:import url="/WEB-INF/views/common/header.jsp" />
 	<hr>
 	<aside class="profile">
 		<table border="1" style="border-collapse: collapse;">
@@ -34,14 +34,14 @@
 				<td rowspan="2"><img
 					src="${ pageContext.servletContext.contextPath }/resources/images/profile.jpg"></td>
 				<td colspan="2">
-					<h2 style="text-align: center">${loginMember.userid }</h2>
+					<h2 style="text-align: center">${loginUser.userid }</h2>
 					<p style="text-align: center">일반회원</p>
 				</td>
 			</tr>
 			<tr>
 				<td><a href="logout.do">&nbsp;로그아웃&nbsp;</a></td>
 				<td><c:url var="callMyInfo2" value="myinfo.do">
-						<c:param name="userid" value="${ loginMember.userid }"></c:param>
+						<c:param name="userid" value="${ loginUser.userid }"></c:param>
 					</c:url> <a href="${ callMyInfo2 }">&nbsp;회원정보수정&nbsp;</a></td>
 			</tr>
 		</table>
@@ -57,7 +57,7 @@
 			<br>
 			<td>
 				<div class="inputArea" >
-					<img style="width:250px; height:250px;" src="${ pageContext.servletContext.contextPath }/resources/board_upfiles/${board.board_rename_filename}"/>
+					<img style="width:250px; height:250px;" src="${ pageContext.servletContext.contextPath }/resources/community_upfiles/${community.com_rename_file}"/>
 				</div>
 			</td>
 
@@ -73,26 +73,17 @@
 			</table>
 	</div>
 	
-	<tr><td colspan="2"><button onclick="javascript:location.href='blist.do?page=${ currentPage }';">목록</button> &nbsp;
-	<!-- 글 작성자가 아닌 회원의 경우 댓글 달기 기능 제공 -->
-	<c:if test="${ requestScope.community.com_writer ne sessionScope.loginMember.userid }">
-		<c:url var="brf" value="/creplyform.do">
-			<c:param name="com_num" value="${ community.com_num }"/>
-			<c:param name="page" value= "${ currentPage }"/>
-		</c:url>
-		<a href="${ brf }">[댓글달기]]</a> &nbsp;
-	</c:if>
+	<tr><td colspan="2"><button onclick="javascript:location.href='clist.do?page=${ currentPage }';">목록</button> &nbsp;
 	<!-- 본인이 등록한 게시글일 때는 수정과 삭제 기능 제공 -->
-	 <c:if test="${ requestScope.board.board_writer eq sessionScope.loginMember.userid }">
+	 <c:if test="${ requestScope.community.com_writer eq sessionScope.loginUser.userid }">
 		<c:url var="bup" value="/cupview.do">
-			<c:param name="com_num" value="${ board.board_num }"/>
+			<c:param name="com_num" value="${ community.com_num }"/>
 			<c:param name="page" value= "${ currentPage }"/>
 		</c:url>
 		<a href="${ bup }">[수정페이지로 이동]]</a> &nbsp;
 		<c:url var="bdt" value="/cdel.do">
 			<c:param name="com_num" value="${ community.com_num }"/>
-			<c:param name="com_lev" value= "${ community.com_lev }"/>
-			<c:param name="com_rename_filename" value="${ community.com_rename_filename }"/>
+			<c:param name="com_rename_file" value="${ community.com_rename_file }"/>
 		</c:url>
 		<a href="${ bdt }">[글삭제]]</a> &nbsp;
 	</c:if>

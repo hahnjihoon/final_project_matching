@@ -74,7 +74,7 @@
 </script>
 
 <style type="text/css">
-	* {margin: 0;padding: 0;}
+	/* * {margin: 0;padding: 0;} */
 	li {list-style: none;}
 	.slideContainer {width: 100%;position: relative;}
 	/*-아래 pageBt abosolute로 위치를 잡기 위하여 부모에 position: relative 필요*/

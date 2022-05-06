@@ -5,142 +5,147 @@
 
 
 <mapper namespace="userMapper">
-	
-	<resultMap type="User" id="resultList">
-		<result property="userid" column="userid" />
-		<result property="userpwd" column="userpwd" />
-		<result property="username" column="username" />
-		<result property="email" column="email" />
-		<result property="phone" column="phone" />
-		<result property="img_name" column="img_name" />
-		<result property="myeyes" column="myeyes" />
-		<result property="mynose" column="mynose" />
-		<result property="mymouth" column="mymouth" />
-		<result property="nick" column="nick" />
-		<result property="height" column="height" />
-		<result property="gender" column="gender" />
-		<result property="address" column="address" />		
-		<result property="age" column="age" />
-		<result property="hobby" column="hobby" />
-		<result property="figure" column="figure" />
-		<result property="job" column="job" />
-		<result property="img_name2" column="img_name2" />
-		<result property="eyes" column="eyes" />
-		<result property="nose" column="nose" />
-		<result property="mouth" column="mouth" />
-		<result property="enroll_date" column="enroll_date" />
-		<result property="admin" column="admin" />
-		<result property="block" column="block" />
-		<result property="like" column="like" />
-		<result property="lastmodified" column="lastmodified" />
-		<result property="login_ok" column="login_ok" />
+   
+   <resultMap type="User" id="resultList">
+      <result property="userid" column="userid" />
+      <result property="userpwd" column="userpwd" />
+      <result property="username" column="username" />
+      <result property="email" column="email" />
+      <result property="phone" column="phone" />
+      <result property="img_name" column="img_name" />
+      <result property="myeyes" column="myeyes" />
+      <result property="mynose" column="mynose" />
+      <result property="mymouth" column="mymouth" />
+      <result property="nick" column="nick" />
+      <result property="height" column="height" />
+      <result property="gender" column="gender" />
+      <result property="address" column="address" />      
+      <result property="age" column="age" />
+      <result property="hobby" column="hobby" />
+      <result property="figure" column="figure" />
+      <result property="job" column="job" />
+      <result property="img_name2" column="img_name2" />
+      <result property="eyes" column="eyes" />
+      <result property="nose" column="nose" />
+      <result property="mouth" column="mouth" />
+      <result property="enroll_date" column="enroll_date" />
+      <result property="admin" column="admin" />
+      <result property="block" column="block" />
+      <result property="like" column="like" />
+      <result property="lastmodified" column="lastmodified" />
+      <result property="login_ok" column="login_ok" />
 
-	</resultMap>
+   </resultMap>
 
-	<select id="selectLogin" parameterType="User" resultType="User">
-		select * from users 
-		where userid = #{ userid } and userpwd = #{ userpwd } 
-		and login_ok = 'Y'
-	</select>
-	
-	<select id="selectList" resultMap="resultList">
-		select * from users 		
-	</select>
-	
-	<select id="selectUser" parameterType="string" resultType="User">
-		select * from users 	
-		where userid = #{ userid }	
-	</select>
-	
-	<select id="selectSearchUserid" parameterType="string" resultMap="resultList">
-		select * from users 
-		where userid like '%' || #{ keyword } || '%' 		
-	</select>
-	
-	<select id="selectSearchGender" parameterType="string" resultMap="resultList">
-		select * from users 
-		where gender = #{ keyword } 		
-	</select>
-	
-	<select id="selectSearchAge" parameterType="_int" resultMap="resultList">
-		select * from users
-		<if test="value == 60">
-			where age >= #{ value }
-		</if>
-		<if test="value != 60">
-			where age between #{ value } and #{ value } + 9
-		</if>		
-	</select>
-	
-<!-- 	<select id="selectSearchEnrollDate" 
-		parameterType="SearchDate" resultMap="resultList">
-		select * from users 
-		where enroll_date between #{ begin } and #{ end }		
-	</select> -->
-	
-	<select id="selectSearchLoginOk" parameterType="string" resultMap="resultList">
-		select * from users 
-		where login_ok = #{ keyword }		
-	</select>
-	
-	<select id="selectCheckId" parameterType="string" resultType="_int">
-		select count(userid) 
-		from users 
-		where userid = #{ userid }	
-	</select>
-	
-	<select id="selectCheckNick" parameterType="string" resultType="_int">
-		select count(nick) 
-		from users 
-		where nick = #{ nick }	
-	</select>
-	
-	<select id="selectMatching"  parameterType="string" resultMap="resultList">
-		select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby 
-		from users A, (select userid, eyes, nose, mouth, gender from users where userid= 'hahnjihoon') B
-		where A.userid = (select distinct A.userid from users where A.myeyes = B.eyes and A.mynose = B.nose and A.mymouth = B.mouth and A.gender != B.gender) and <![CDATA[rownum<=5]]>;
-	</select>
-	
+   <select id="selectLogin" parameterType="User" resultType="User">
+      select * from users 
+      where userid = #{ userid } and userpwd = #{ userpwd } 
+      and login_ok = 'Y'
+   </select>
+   
+   <select id="selectList" resultMap="resultList">
+      select * from users
+             
+   </select>
+   
+   <select id="selectList2" resultMap="resultList">
+      select * from users where userid= 'mynameiu'
+   </select>
+   
+   <select id="selectUser" parameterType="string" resultType="User">
+      select * from users    
+      where userid = #{ userid }   
+   </select>
+   
+   <select id="selectSearchUserid" parameterType="string" resultMap="resultList">
+      select * from users 
+      where userid like '%' || #{ keyword } || '%'       
+   </select>
+   
+   <select id="selectSearchGender" parameterType="string" resultMap="resultList">
+      select * from users 
+      where gender = #{ keyword }       
+   </select>
+   
+   <select id="selectSearchAge" parameterType="_int" resultMap="resultList">
+      select * from users
+      <if test="value == 60">
+         where age >= #{ value }
+      </if>
+      <if test="value != 60">
+         where age between #{ value } and #{ value } + 9
+      </if>      
+   </select>
+   
+<!--    <select id="selectSearchEnrollDate" 
+      parameterType="SearchDate" resultMap="resultList">
+      select * from users 
+      where enroll_date between #{ begin } and #{ end }      
+   </select> -->
+   
+   <select id="selectSearchLoginOk" parameterType="string" resultMap="resultList">
+      select * from users 
+      where login_ok = #{ keyword }      
+   </select>
+   
+   <select id="selectCheckId" parameterType="string" resultType="_int">
+      select count(userid) 
+      from users 
+      where userid = #{ userid }   
+   </select>
+   
+   <select id="selectCheckNick" parameterType="string" resultType="_int">
+      select count(nick) 
+      from users 
+      where nick = #{ nick }   
+   </select>
+   
+   <select id="selectMatching"  parameterType="string" resultMap="resultList">
+      select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby 
+      from users A, (select userid, eyes, nose, mouth, gender from users where userid= 'hahnjihoon') B
+      where A.userid = (select distinct A.userid from users where A.myeyes = B.eyes and A.mynose = B.nose and A.mymouth = B.mouth and A.gender != B.gender) and <![CDATA[rownum<=5]]>;
+   </select>
+   
 
- 	<select id="selectAppeal" parameterType="string" resultMap="resultList">
-		select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby
-		from users A, (select userid, gender from users where userid= 'hahnjihoon') B
-		where A.userid = (select distinct A.userid from users where A.gender != B.gender) and <![CDATA[rownum<=5]]>;
-	</select>
-	
-	<insert id="insertUser" parameterType="User">
-		insert into users (userid, userpwd, username, 
-		email, phone, img_name, myeyes, mynose, mymouth, nick, height,
-		gender, address, age, hobby, figure,
-		userjob, img_name2, eyes, nose, mouth,
-		enroll_date, admin, block, userlike, lastmodified, login_ok)
-		values (#{ userid }, #{ userpwd }, #{ username },
-		#{ email }, ${ phone }, #{img_name }, #{ myeyes }, #{ mynose }, #{ mymouth }, #{ nick }, #{ height}, 
-		#{ gender }, #{ address }, #{ age }, #{ hobby }, #{ figure}, 
-		#{ userjob }, #{ img_name2 }, #{ eyes }, #{ nose }, #{ mouth },
-		 sysdate, default, default, default, sysdate, default)
-	</insert>
+    <select id="selectAppeal" parameterType="string" resultMap="resultList">
+      select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby
+      from users A, (select userid, gender from users where userid= 'hahnjihoon') B
+      where A.userid = (select distinct A.userid from users where A.gender != B.gender) and <![CDATA[rownum<=5]]>;
+   </select>
+   
+   <insert id="insertUser" parameterType="User">
+      insert into users (userid, userpwd, username, 
+      email, phone, img_name, myeyes, mynose, mymouth, nick, height,
+      gender, address, age, hobby, figure,
+      userjob, img_name2, eyes, nose, mouth,
+      enroll_date, admin, block, userlike, lastmodified, login_ok)
+      values (#{ userid }, #{ userpwd }, #{ username },
+      #{ email }, ${ phone }, #{img_name }, #{ myeyes }, #{ mynose }, #{ mymouth }, #{ nick }, #{ height}, 
+      #{ gender }, #{ address }, #{ age }, #{ hobby }, #{ figure}, 
+      #{ userjob }, #{ img_name2 }, #{ eyes }, #{ nose }, #{ mouth },
+       sysdate, default, default, default, sysdate, default)
+   </insert>
 
-	<update id="updateUser" parameterType="User">
-		update users 
-		set userpwd = #{ userpwd },
-			email = #{ email }, phone = #{ phone }, img_name = #{ img_name },
-			myeyes = #{ myeyes }, mynose = #{ mynose }, mymouth = #{ mymouth }, 	
-			height = #{ height }, address = #{ address }, age = #{ age }, 
-			hobby = #{ hobby }, figure = #{ figure }, userjob = #{ userjob },
-			img_name2 = #{ img_name2 },
-			eyes = #{ eyes }, nose = #{ nose }, mouth = #{ mouth }
-		where userid = #{ userid }
-	</update>
-	
-	<update id="updateLoginOK" parameterType="User">
-		update users 
-		set login_ok = #{ login_ok } 
-		where userid = #{ userid }
-	</update>
-	
-	<delete id="deleteUser" parameterType="string">
-		delete from users where userid = #{ uid }
-	</delete>
-	
+   <update id="updateUser" parameterType="User">
+      update users 
+      set userpwd = #{ userpwd },
+         email = #{ email }, phone = #{ phone }, img_name = #{ img_name },
+         myeyes = #{ myeyes }, mynose = #{ mynose }, mymouth = #{ mymouth },    
+         height = #{ height }, address = #{ address }, age = #{ age }, 
+         hobby = #{ hobby }, figure = #{ figure }, userjob = #{ userjob },
+         img_name2 = #{ img_name2 },
+         eyes = #{ eyes }, nose = #{ nose }, mouth = #{ mouth }
+      where userid = #{ userid }
+   </update>
+   
+   <update id="updateLoginOK" parameterType="User">
+      update users 
+      set login_ok = #{ login_ok } 
+      where userid = #{ userid }
+   </update>
+   
+   <delete id="deleteUser" parameterType="string">
+      delete from users where userid = #{ uid }
+   </delete>
+   
 </mapper>

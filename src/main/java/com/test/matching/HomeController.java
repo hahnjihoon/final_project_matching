@@ -41,4 +41,9 @@ public class HomeController {
 		return "common/main";
 	}
 	
+	@RequestMapping(value = "main2.do", method = RequestMethod.GET)
+	public String mainViewForward2() {
+		return "common/main2";
+	}
+	
 }

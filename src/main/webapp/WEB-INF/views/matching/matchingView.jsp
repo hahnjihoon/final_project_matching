@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
- <style type="text/css">
+<style type="text/css">
 div.lineA {
    height: 100px;
    border: 1px solid gray;
@@ -45,30 +45,33 @@ div#loginBox button {
    font-weight: bold;
 }
 section {
-   position: relative;
-   left: 120px;
+   display:block;
+   text-align:center;
+   align:center;
 }
 section>div {
    width: 360px;
    background: #ccffff;
+   text-align:center;
+   align:center;
 }
 section div table {
    width: 350px;
    background: white;
 }
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 img{
 width: 300px;
 height: 300px;
 }
 
-li{
-  list-style-type: none;
-}
+
 
 #slideShow{
   width: 500px;
@@ -133,37 +136,82 @@ li{
 .next:hover{
   transform: translateX(10px);
 }
+
+* {margin: 0;padding: 0;}
+   li {list-style: none;}
+   .slideContainer {width: 100%;position: relative;}
+   /*-아래 pageBt abosolute로 위치를 잡기 위하여 부모에 position: relative 필요*/
+   .slideWrap {width: calc(100%*6);overflow: hidden;margin-left: calc(-100%*1);position: relative;z-index: 1}
+   /*총600장을 나열하기위하여 calc(100%*6) 또는 600%, 맨처음 1번째 이미지 가기위하여 margin-left: calc(-100%*0)*/
+   .slide {float: left;}
+   .slide img {width: 100%;}
+   .pageBtWrap {z-index:2; position: absolute;left: 0;bottom: 7%;width: 100%;text-align: center;}
+   .pageBtWrap li {display: inline;}
+   /*부모요소를 text-align: center, li를 inline요소로 바꿔 중간 정렬, float: left 사용할 필요없음*/
+   .pageBtWrap li .pageBt{display: inline-block;width: 12px; height: 12px; border-radius: 50%;margin-left: 10px;background-color: #fff;}   
+   .pageBtWrap li .pageBt.addPageBt {background-color: #ff0;}
+   
+   
+   button {
+      width:200px;
+       background-color: black; /* Green */
+       border: none;
+       color: white;
+       padding: 30px 32px;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       font-size: 16px;
+       margin: 30px 30px;
+       cursor: pointer;
+       -webkit-transition-duration: 0.4s; /* Safari */
+       transition-duration: 0.4s;
+   }
+   button:hover {
+       box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+   }
+   
+   @font-face {
+         src : url("resources/font/Blacksword.otf");
+         font-family: "maintitle"
+   }
  </style>
  <script type="text/javascript" src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
  
  </head> 
  <body> 
-<c:import url="/WEB-INF/views/common/menubar.jsp" />
+<c:import url="/WEB-INF/views/common/header.jsp" />
+<h1 style="font-family:maintitle; font-size:30px; text-align:center; cursor:pointer; " >이상형추천</h1>
  <div id="slideShow"> 
  <ul class="slides"> 
- <li><img src="${ pageContext.servletContext.contextPath}/resources/images/image11.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li>
- <li><img src="${ pageContext.servletContext.contextPath}/resources/images/image22.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li>
- <li><img src="${ pageContext.servletContext.contextPath}/resources/images/image33.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li>
- <li><img src="${ pageContext.servletContext.contextPath}/resources/images/image44.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li> 
- <li><img src="${ pageContext.servletContext.contextPath}/resources/images/image11.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li> 
- <li><img src="${ pageContext.servletContext.contextPath}/resources/images/image22.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li> 
+ <li><img src="${ pageContext.servletContext.contextPath}/resources/idealimage/332.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"><input type="hidden"></li>
+ <li><img src="${ pageContext.servletContext.contextPath}/resources/idealimage/340.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li>
+ <li><img src="${ pageContext.servletContext.contextPath}/resources/idealimage/384.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li>
+ <li><img src="${ pageContext.servletContext.contextPath}/resources/idealimage/391.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li> 
+ <li><img src="${ pageContext.servletContext.contextPath}/resources/idealimage/397.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li> 
+ <%-- <li><img src="${ pageContext.servletContext.contextPath}/resources/idealimage/image22.jpg" width:"300" height:"300" alt="" onclick = "clickImg()"></li> --%> 
  </ul> 
- <p class="controller"> 
+ <p class="controller">
  <!-- &lang: 왼쪽 방향 화살표 &rang: 오른쪽 방향 화살표 --> 
  <span class="prev" onclick = "delete_row()">&lang;</span> 
  <span class="next" onclick = "delete_row()">&rang;</span> 
  </p> 
  </div> 
- <section>
- <div id="bb" style="float:left; border: 1px solid navy; padding: 5px; margin: 5px;">
- <h4>이미지 클릭하여 해당인물 정보보기</h4>
- <table id="aa" border="1" cellspacing="0">
-   
- </table>
+
+
+<section text-align="center">
+<div align="center" id="bb" style="display:inline-block; border: 1px solid navy; padding: 5px; margin: 5px;">
+<h4 align="center">이미지 클릭하여 해당인물 정보보기</h4>
+<table align="center" id="aa" border="1" cellspacing="0">
+</table>
 </div>
 </section>
-  </body>
-  <script>
+
+ </body>
+  
+  
+
+<script type="text/javascript">
  const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
  const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
  let currentIdx = 0; //현재 슬라이드 index
@@ -189,6 +237,8 @@ li{
         my_tbody.deleteRow( my_tbody.rows.i ); 
        }
      }
+ 
+ 
  function clickImg(){
     $.ajax({
          url: "showInfo.do",
@@ -207,12 +257,11 @@ li{
             
             var values = "";
             
-            values += "<tr><th>번호</th><th>제목</th><th>날짜</th></tr>";
+            values += "<tr><th>닉네임</th><th>키</th><th>직업</th></tr>";
             for(var i in json.list){  //i(인덱스) 변수가 자동으로 1씩 증가 처리됨
-               values += "<tr><td>" + json.list[i].noticeno 
-                     + "</td><td><a href='ndetail.do?noticeno=" + json.list[i].noticeno + "'>"
-                     + decodeURIComponent(json.list[i].noticetitle).replace(/\+/gi, " ") 
-                     + "</a></td><td>" + json.list[i].noticedate + "</td></tr>";
+               values += "<tr><td>" + json.list[i].username
+                     + "</td><td>" + json.list[i].height + "</td>"
+                     + "<td>" + json.list[i].userjob + "</td></tr>";
             }  //for in
             
             $("#aa").html($("#aa").html() + values);
@@ -223,6 +272,7 @@ li{
          }
       });  //ajax
    }
+ 
  prev.addEventListener('click', function () {
    /*첫 번째 슬라이드로 표시 됐을때는 
    이전 버튼 눌러도 아무런 반응 없게 하기 위해 
@@ -239,6 +289,9 @@ li{
    if (currentIdx !== slideCount - 1) {
      moveSlide(currentIdx + 1);
    }
+   
+   
  });
+ 
  </script>
-   </html>
+ </html>

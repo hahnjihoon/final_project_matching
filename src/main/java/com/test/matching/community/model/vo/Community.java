@@ -11,18 +11,15 @@ public class Community implements java.io.Serializable{
 	private String com_original_file;
 	private String com_rename_file;
 	private String com_writer;
+	private int com_readcount;
 	
 	public Community() {}
 
-	public Community(int com_num, String com_content, Date com_date, String com_original_file, String com_rename_file,
-			String com_writer) {
-		super();
-		this.com_num = com_num;
-		this.com_content = com_content;
-		this.com_date = com_date;
-		this.com_original_file = com_original_file;
-		this.com_rename_file = com_rename_file;
-		this.com_writer = com_writer;
+	@Override
+	public String toString() {
+		return "Community [com_num=" + com_num + ", com_content=" + com_content + ", com_date=" + com_date
+				+ ", com_original_file=" + com_original_file + ", com_rename_file=" + com_rename_file + ", com_writer="
+				+ com_writer + ", com_readcount=" + com_readcount + "]";
 	}
 
 	public int getCom_num() {
@@ -73,16 +70,31 @@ public class Community implements java.io.Serializable{
 		this.com_writer = com_writer;
 	}
 
+	public int getCom_readcount() {
+		return com_readcount;
+	}
+
+	public void setCom_readcount(int com_readcount) {
+		this.com_readcount = com_readcount;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	@Override
-	public String toString() {
-		return "Community [com_num=" + com_num + ", com_content=" + com_content + ", com_date=" + com_date
-				+ ", com_original_file=" + com_original_file + ", com_rename_file=" + com_rename_file + ", com_writer="
-				+ com_writer + "]";
+	public Community(int com_num, String com_content, Date com_date, String com_original_file, String com_rename_file,
+			String com_writer, int com_readcount) {
+		super();
+		this.com_num = com_num;
+		this.com_content = com_content;
+		this.com_date = com_date;
+		this.com_original_file = com_original_file;
+		this.com_rename_file = com_rename_file;
+		this.com_writer = com_writer;
+		this.com_readcount = com_readcount;
 	}
+
+	
 	
 	
 }

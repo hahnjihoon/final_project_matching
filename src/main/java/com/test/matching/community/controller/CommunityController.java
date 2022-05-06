@@ -1,17 +1,12 @@
 package com.test.matching.community.controller;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,57 +15,58 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.test.matching.common.Paging;
 import com.test.matching.community.model.service.CommunityService;
 import com.test.matching.community.model.vo.Community;
+import com.test.matching.user.model.service.UserService;
 import com.test.matching.user.model.vo.User;
 
+@Controller
 public class CommunityController {
 	private static final Logger logger = LoggerFactory.getLogger(CommunityController.class);
 
 	@Autowired
 	private CommunityService CommunityService;
 
-	// °Ô½Ã±Û ÆäÀÌÁö´ÜÀ§·Î ¸ñ·Ï Á¶È¸ Ã³¸®¿ë
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("clist.do")
 	public ModelAndView CommunityListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User loginMember = (User) session.getAttribute("loginMember");
-		String userid = loginMember.getUserid();
+			HttpSession session) {
+//		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("loginUser");
+		String userid = user.getUserid();
 		int currentPage = 1;
 		if (page != null) {
 			currentPage = Integer.parseInt(page);
 		}
 
-		// ÆäÀÌÂ¡ °è»ê Ã³¸® -- º°µµÀÇ Å¬·¡½º·Î ÀÛ¼ºÇØ¼­ »ç¿ëÇØµµµÊ
-		int limit = 5; // ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·Ï °¹¼ö
-		// ÆäÀÌÁö ¼ö °è»êÀ» À§ÇØ ÃÑ ¸ñ·Ï °¹¼ö Á¶È¸
+		// ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ -- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½
+		int limit = 5; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 		int listCount = CommunityService.selectListCount();
-		// ÆäÀÌÁö ¼ö °è»ê
-		// ÁÖÀÇ : ¸ñ·ÏÀÌ 11°³ÀÌ¸é, ÆäÀÌÁö ¼ö´Â 2°¡ µÊ (³ª¸ÓÁö ¸ñ·Ï 1°³µµ Ãâ·ÂÆäÀÌÁö°¡ 1°³°¡ ÇÊ¿äÇÔ)
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ 11ï¿½ï¿½ï¿½Ì¸ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½)
 		int maxPage = (int) ((double) listCount / limit + 0.9);
-		// ÇöÀç ÆäÀÌÁö°¡ Æ÷ÇÔµÈ ÆäÀÌÁö ±×·ìÀÇ ½ÃÀÛ°ª ÁöÁ¤(ºä ¾Æ·¡ÂÊ¿¡ Ç¥½ÃÇÒ ÆäÀÌÁö ¼ö¸¦ 5°³¾¿ ÇÑ °æ¿ì)
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½Ê¿ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 5ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½)
 		int startPage = (int) ((double) currentPage / 5 + 0.9);
-		// ÇöÀç ÆäÀÌÁö°¡ Æ÷ÇÔµÈ ÆäÀÌÁö ±×·ìÀÇ ³¡°ª
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int endPage = startPage + 5 - 1;
 
 		if (maxPage < endPage) {
 			endPage = maxPage;
 		}
 
-		// Äõ¸®¹®¿¡ Àü´ÞÇÒ ÇöÀç ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·ÏÀÇ Ã¹Çà°ú ³¡Çà °´Ã¼ Ã³¸®
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ Ã³ï¿½ï¿½
 		int startRow = (currentPage - 1) * limit + 1;
 		int endRow = startRow + limit - 1;
 		Paging paging = new Paging(startRow, endRow, userid);
 
-		// º°µµÀÇ Å¬·¡½º ÀÛ¼º ³¡ -----------------------------------
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ ï¿½ï¿½ -----------------------------------
 
-		// ¼­ºñ½º ¸Þ¼Òµå ½ÇÇàÇÏ°í °á°ú¹Þ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½Þ±ï¿½
 		ArrayList<Community> list = CommunityService.selectList(paging);
 
 		if (list != null && list.size() > 0) {
@@ -84,64 +80,64 @@ public class CommunityController {
 
 			mv.setViewName("community/communityListView");
 		} else {
-			mv.addObject("message", currentPage + "ÆäÀÌÁö ¸ñ·Ï Á¶È¸ ½ÇÆÐ");
+			mv.addObject("message", currentPage + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
 
-	// °Ô½Ã ¿ø±Û ¾²±â ÆäÀÌÁö·Î ÀÌµ¿
+	// ï¿½Ô½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	@RequestMapping("cwform.do")
 	public String moveCommunityWriteForm() {
 		return "community/communityWriteForm";
 	}
 
-	// °Ô½Ã¿ø±Û µî·Ï Ã³¸®¿ë : ÆÄÀÏÃ·ºÎ±â´É ÀÖÀ½
+	// ï¿½Ô½Ã¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½Ã·ï¿½Î±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "cinsert.do", method = RequestMethod.POST)
-	public String CommunityInsertMethod(Community Community, HttpServletRequest request, Model model,
+	public String CommunityInsertMethod(Community community, HttpServletRequest request, Model model,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		// ¾÷·ÎµåµÈ ÆÄÀÏ ÀúÀå Æú´õ ÁöÁ¤
+		// ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String savePath = request.getSession().getServletContext().getRealPath("resources/community_upfiles");
 
-		// Ã·ºÎÆÄÀÏÀÌ ÀÖÀ»¶§¸¸ ¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤ Æú´õ·Î ¿Å±â±â
+		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½
 		if (!mfile.isEmpty()) {
 			String fileName = mfile.getOriginalFilename();
 			if (fileName != null && fileName.length() > 0) {
-				// ¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â
-				// °øÁö±Û µî·Ï ¿äÃ»½ÃÁ¡ÀÇ ³¯Â¥Á¤º¸¸¦ ÀÌ¿ëÇÔ
+				// ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-				// º¯°æÇÒ ÆÄÀÏ ÀÌ¸§ ¸¸µé±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
-				// ¿øº» ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ÃßÃâÇØ¼­, º¯°æ ÆÄÀÏ¸í¿¡ ºÙ¿©ÁÜ
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½
 				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
 
-				// ÆÄÀÏ°´Ã¼ ¸¸µé±â
+				// ï¿½ï¿½ï¿½Ï°ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½
 				File originFile = new File(savePath + "\\" + fileName);
 				File renameFile = new File(savePath + "\\" + renameFileName);
 
-				// ¾÷·Îµå ÆÄÀÏ ÀúÀå½ÃÅ°°í, ¹Ù·Î ÀÌ¸§¹Ù²Ù±â ½ÇÇàÇÔ
+				// ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½, ï¿½Ù·ï¿½ ï¿½Ì¸ï¿½ï¿½Ù²Ù±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				try {
 					mfile.transferTo(renameFile);
 				} catch (Exception e) {
 					e.printStackTrace();
-					model.addAttribute("message", "Àü¼ÛÆÄÀÏ ÀúÀå ½ÇÆÐ");
+					model.addAttribute("message", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 					return "common/error";
 				}
-				Community.setCom_original_file(fileName);
-				Community.setCom_rename_file(renameFileName);
+				community.setCom_original_file(fileName);
+				community.setCom_rename_file(renameFileName);
 			}
-		} // Ã·ºÎ ÆÄÀÏÀÌ ÀÖÀ»¶§¸¸
+		} // Ã·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-		if (CommunityService.insertOriginCommunity(Community) > 0) { // °Ô½Ã ¿ø±Û µî·Ï ¼º°ø½Ã
-			return "redirect:blist.do?page=1";
+		if (CommunityService.insertOriginCommunity(community) > 0) { // ï¿½Ô½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			return "redirect:clist.do";
 		} else {
-			model.addAttribute("message", "°Ô½Ã ¿ø±Û µî·Ï ½ÇÆÐ");
+			model.addAttribute("message", "ï¿½Ô½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 
-	// °Ô½Ã±Û »ó¼¼º¸±â Ã³¸®
+	// ï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	@RequestMapping("cdetail.do")
 	public ModelAndView CommunityDetailMethod(ModelAndView mv, @RequestParam("com_num") int com_num,
 			@RequestParam(name = "page", required = false) String page) {
@@ -150,18 +146,18 @@ public class CommunityController {
 			currentPage = Integer.parseInt(page);
 
 		}
-		// Á¶È¸¼ö 1Áõ°¡ Ã³¸®
+		// ï¿½ï¿½È¸ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		CommunityService.updateAddReadcount(com_num);
 
-		// ÇØ´ç °Ô½Ã±Û Á¶È¸
+		// ï¿½Ø´ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½È¸
 		Community community = CommunityService.selectCommunity(com_num);
 
 		if (community != null) {
 			mv.addObject("Community", community);
 			mv.addObject("currentPage", currentPage);
-			mv.setViewName("Community/CommunityDetailView");
+			mv.setViewName("community/communityDetailView");
 		} else {
-			mv.addObject("message", com_num + "¹ø °Ô½Ã±Û Á¶È¸ ½ÇÆÐ.");
+			mv.addObject("message", com_num + "ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½.");
 			mv.setViewName("common/error");
 		}
 
@@ -171,27 +167,27 @@ public class CommunityController {
 	@RequestMapping("cfdown.do")
 	public ModelAndView fileDownMethod(HttpServletRequest request, @RequestParam("ofile") String originFileName,
 			@RequestParam("rfile") String renameFileName, ModelAndView mv) {
-		// °øÁö»çÇ× Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String savePath = request.getSession().getServletContext().getRealPath("resources/community_upfiles");
-		// ÀúÀå Æú´õ¿¡¼­ ÀÐÀ» ÆÄÀÏ¿¡ ´ëÇØ °æ·Î Ãß°¡ÇÏ¸é¼­ File °´Ã¼ »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¸é¼­ File ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 		File renameFile = new File(savePath + "\\" + renameFileName);
-		// ´Ù¿îÀ» À§ÇØ ³»º¸³»´Â ÆÄÀÏ °´Ã¼ »ý¼º
+		// ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 		File originFile = new File(originFileName);
 
-		mv.setViewName("filedown"); // µî·ÏµÈ ÆÄÀÏ ´Ù¿î·Îµå Ã³¸®¿ë ºä Å¬·¡¼­ id ¸í
-		mv.addObject("renameFile", renameFile); // Àü´ÞÇÒ ÆÄÀÏ°´Ã¼ Model ¿¡ ÀúÀå
+		mv.setViewName("filedown"); // ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ id ï¿½ï¿½
+		mv.addObject("renameFile", renameFile); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½Ã¼ Model ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		mv.addObject("originFile", originFile);
 
 		return mv;
 	}
 
-	// °Ô½Ã±Û »èÁ¦
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("cdel.do")
 	public String CommunityDeleteMethod(Community Community, HttpServletRequest request, Model model) {
 
 		if (CommunityService.deleteCommunity(Community) > 0) {
 
-			// ±Û»èÁ¦ ¼º°ø½Ã ÀúÀåÆú´õ¿¡ Ã·ºÎÆÄÀÏµµ °°ÀÌ »èÁ¦Ã³¸®
+			// ï¿½Û»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 			if (Community.getCom_rename_file() != null) {
 				new File(request.getSession().getServletContext().getRealPath("resources/Community_upfiles") + "\\"
 						+ Community.getCom_rename_file()).delete();
@@ -200,12 +196,12 @@ public class CommunityController {
 			return "redirect:clist.do?page=1";
 
 		} else {
-			model.addAttribute("message", Community.getCom_num() + "¹ø ±Û »èÁ¦ ½ÇÆÐ");
+			model.addAttribute("message", Community.getCom_num() + "ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 
-	// ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	@RequestMapping("cupview.do")
 	public String moveCommunityUpdateView(@RequestParam("com_num") int com_num, @RequestParam("page") int currentPage,
 			Model model) {
@@ -215,7 +211,7 @@ public class CommunityController {
 			model.addAttribute("page", currentPage);
 			return "Community/communityUpdateView";
 		} else {
-			model.addAttribute("message", com_num + "¹ø ±Û ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆÐ.");
+			model.addAttribute("message", com_num + "ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½.");
 			return "common/error";
 		}
 	}
@@ -225,51 +221,51 @@ public class CommunityController {
 	public String CommunityUpdateMethod(Community community, HttpServletRequest request, Model model,
 			@RequestParam("page") int page, @RequestParam(name = "delFlag", required = false) String delFlag,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		// ¾÷·ÎµåµÈ ÆÄÀÏ ÀúÀå Æú´õ ÁöÁ¤ÇÏ±â
+		// ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		String savePath = request.getSession().getServletContext().getRealPath("resources/community_upfiles");
 
-		// Ã·ºÎ ÆÄÀÏ ¼öÁ¤ Ã³¸® ---------------------------
-		// ¿ø·¡ Ã·ºÎÆÄÀÏÀÌ ÀÖ´Âµ¥ »èÁ¦¸¦ ¼±ÅÃÇÑ °æ¿ì
+		// Ã·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ---------------------------
+		// ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if (community.getCom_original_file() != null && delFlag != null && delFlag.equals("yes")) {
-			// ÀúÀå Æú´õ¿¡¼­ ÇØ´ç ÆÄÀÏÀ» »èÁ¦ÇÔ
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			new File(savePath + "\\" + community.getCom_rename_file()).delete();
-			// Community ÀÇ ÆÄÀÏÁ¤º¸µµ Á¦°ÅÇÔ
+			// Community ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			community.setCom_original_file(null);
 			community.setCom_rename_file(null);
 
 		}
-		// »õ·Î¿î Ã·ºÎÆÄÀÏ¤· ¤ÓÀÖÀ» ¶§
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï¤ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		if (!mfile.isEmpty()) {
-			// ÀúÀå Æú´õÀÇ ÀÌÀü ÆÄÀÏÀ» »èÁ¦ÇÔ
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (community.getCom_original_file() != null) {
-				// ÀúÀå Æú´õ¿¡¼­ ÇØ´ç ÆÄÀÏÀ» »èÁ¦ÇÔ
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				new File(savePath + "\\" + community.getCom_rename_file()).delete();
-				// Community ÀÇ ÆÄÀÏÁ¤º¸µµ Á¦°ÅÇÔ
+				// Community ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				community.setCom_original_file(null);
 				community.setCom_rename_file(null);
 			}
-			// ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ¾ø´Â °æ¿ì --------------------
+			// ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --------------------
 			String fileName = mfile.getOriginalFilename();
-			// ÀÌ¸§ ¹Ù²Ù±â Ã³¸® : ³â ¿ù ½Ã ºÐ ÃÊ.È®ÀåÀÚ
+			// ï¿½Ì¸ï¿½ ï¿½Ù²Ù±ï¿½ Ã³ï¿½ï¿½ : ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½.È®ï¿½ï¿½ï¿½ï¿½
 			if (fileName != null && fileName.length() > 0) {
-				// ¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â
-				// °øÁö±Û µî·Ï ¿äÃ»½ÃÁ¡ÀÇ ³¯Â¥Á¤º¸¸¦ ÀÌ¿ëÇÔ
+				// ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-				// º¯°æÇÒ ÆÄÀÏ ÀÌ¸§ ¸¸µé±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
-				// ¿øº» ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ÃßÃâÇØ¼­, º¯°æ ÆÄÀÏ¸í¿¡ ºÙ¿©ÁÜ
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½
 				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
 
-				// ÆÄÀÏ°´Ã¼ ¸¸µé±â
+				// ï¿½ï¿½ï¿½Ï°ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½
 				File originFile = new File(savePath + "\\" + fileName);
 				File renameFile = new File(savePath + "\\" + renameFileName);
 
-				// ¾÷·Îµå ÆÄÀÏ ÀúÀå½ÃÅ°°í, ¹Ù·Î ÀÌ¸§¹Ù²Ù±â ½ÇÇàÇÔ
+				// ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½, ï¿½Ù·ï¿½ ï¿½Ì¸ï¿½ï¿½Ù²Ù±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				try {
 					mfile.transferTo(renameFile);
 				} catch (Exception e) {
 					e.printStackTrace();
-					model.addAttribute("message", "Àü¼ÛÆÄÀÏ ÀúÀå ½ÇÆÐ");
+					model.addAttribute("message", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 					return "common/error";
 				}
 				community.setCom_original_file(fileName);
@@ -278,14 +274,14 @@ public class CommunityController {
 		}
 
 		// -----------------------------------------
-		// ¼­ºñ½º ¸Þ¼Òµå ½ÇÇà½ÃÅ°°í °á°ú¹Þ¾Æ¼­ ¼º°ø|½ÇÆÐ ÆäÀÌÁö ³»º¸³»±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Þ¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (CommunityService.updateOrigin(community) > 0) {
-			// ¿ø±Û ¼öÁ¤ ¼º°ø½Ã »ó¼¼º¸±â ÆäÀÌÁö ³»º¸³»´Â °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			model.addAttribute("page", page);
 			model.addAttribute("com_num", community.getCom_num());
 			return "redirect:cdetail.do";
 		} else {
-			model.addAttribute("message", community.getCom_num() + "¹ø °øÁö ¼öÁ¤ ½ÇÆÐ");
+			model.addAttribute("message", community.getCom_num() + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "commom/error";
 		}
 	}

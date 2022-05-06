@@ -8,8 +8,8 @@
 		<id column="com_num" property="com_num" />
 		<result column="com_writer" property="com_writer" />
 		<result column="com_content" property="com_content" />
-		<result column="com_original_filename" property="com_original_filename" />
-		<result column="com_rename_filename" property="com_rename_filename" />
+		<result column="com_original_file" property="com_original_file" />
+		<result column="com_rename_file" property="com_rename_file" />
 		<result column="com_date" property="com_date" />
 		<result column="com_lev" property="com_lev" />
 		<result column="com_ref" property="com_ref" />
@@ -18,7 +18,7 @@
 		<result column="com_readcount" property="com_readcount" />
 	</resultMap>
 	
-	<resultMap type="com" id="resultTop3">
+	<resultMap type="community" id="resultTop3">
 		<result column="com_num" property="com_num" />
 		<result column="com_content" property="com_content" />
 		<result column="com_readcount" property="com_readcount" />
@@ -33,36 +33,31 @@
 
 	<select id="getListCount" resultType="_int">
 		select count(*) from community
-	</select>	
+	</select>	 
+	
 	
 	<select id="selectList" 
-	parameterType="Paging" resultMap="resultcom">
-		<![CDATA[
-			SELECT *  
-			FROM (SELECT ROWNUM RNUM, com_NUM,com_WRITER,   
-			               com_CONTENT, com_ORIGINAL_FILENAME,  
-			               com_RENAME_FILENAME, com_DATE, com_LEV, 
-			               com_REF, com_REPLY_REF, com_REPLY_SEQ, 
-			               com_READCOUNT 
-			       FROM (SELECT * FROM com 
-			              ORDER BY com_REF DESC, com_REPLY_REF DESC, 
-			              com_LEV ASC,  com_REPLY_SEQ ASC))  
-			where rnum >= #{startRow} and rnum <= #{endRow}
-		]]>
+	parameterType="Paging" resultMap="resultcommunity">
+		  <![CDATA[
+         SELECT *  
+         FROM (SELECT ROWNUM RNUM, Com_NUM,Com_WRITER,   
+                        Com_CONTENT, Com_ORIGINAL_FILE,  
+                        Com_RENAME_FILE, Com_DATE, 
+                        Com_READCOUNT 
+                FROM (SELECT * FROM Community))  
+         where rnum >= #{startRow} and rnum <= #{endRow}
+      ]]>
+
 	</select>
 	
-	<insert id="insertOrigincom" parameterType="com" >
-		insert into community 	(com_num,com_writer,
-				com_content, com_original_filename, 
-				com_rename_filename, com_date, 
-				com_lev, com_ref, com_reply_ref,
-				com_reply_seq,  com_readcount)	
-		values ((select max(com_num) + 1 from community ), 
-				 #{com_writer},#{com_content},#{com_original_filename}, 
-				#{com_rename_filename}, 
-				sysdate, 1, 
-				(select max(com_num) + 1 from community ), 
-				default, default, default)		
+	
+	<insert id="insertOriginCommunity" parameterType="community" >
+		  insert into community    (com_num,com_writer,
+            com_content, com_original_file,com_rename_file, com_date, 
+            com_readcount)   
+      values ((select max(com_num) + 1 from community), 
+             #{com_writer},#{com_content},#{com_original_file}, 
+             #{com_rename_file},sysdate, default)      
 	</insert>
 
 	<update id="addReadCount" parameterType="_int">
@@ -71,19 +66,19 @@
 		where com_num = #{com_num}
 	</update>
 
-	<select id="selectcom" parameterType="int" resultMap="resultcom">
+	<select id="selectCommunity" parameterType="int" resultMap="resultcommunity">
 		select * from community 
 		where com_num = #{com_num}
 	</select>	
 	
-	<update id="updateReplySeq1" parameterType="com" >
+	<update id="updateReplySeq1" parameterType="community" >
 		update community  
 		set com_reply_seq = com_reply_seq + 1 
 		where com_ref = #{com_ref} 
 		and com_lev = #{com_lev}		
 	</update>
 	
-	<update id="updateReplySeq2" parameterType="com" >
+	<update id="updateReplySeq2" parameterType="community" >
 		update community  
 		set com_reply_seq = com_reply_seq + 1 
 		where com_ref = #{com_ref} 
@@ -91,7 +86,7 @@
 		and com_reply_ref = 	#{com_reply_ref}
 	</update>
 	
-	<insert id="insertReply1" parameterType="com">
+	<insert id="insertReply1" parameterType="community">
 		insert into community  (com_num, com_writer,
 				com_content, com_original_filename, 
 				com_rename_filename, com_date, 
@@ -104,7 +99,7 @@
 				#{com_reply_seq}, default)		
 	</insert>
 	
-	<insert id="insertReply2" parameterType="com">
+	<insert id="insertReply2" parameterType="community">
 		insert into community  (com_num,  com_writer,
 				com_content, com_original_filename, 
 				com_rename_filename, com_date, 
@@ -116,7 +111,7 @@
 				#{com_reply_ref}, #{com_reply_seq}, default)
 	</insert>
 
-	<delete id="deletecom" parameterType="com">
+	<delete id="deletecom" parameterType="community">
 		delete from community  
 		<if test="com_lev == 1">
 			where com_ref = #{com_num}
@@ -129,13 +124,13 @@
 		</if>		
 	</delete>
 	
-	<update id="updateReply" parameterType="com">
+	<update id="updateReply" parameterType="community">
 		update community  
 		set com_content = #{com_content}, 
 		where com_num = #{com_num}						
 	</update>
 	
-	<update id="updateOrigin" parameterType="com">
+	<update id="updateOrigin" parameterType="community">
 		update community  
 		set com_content = #{com_content}, 
 			<if test="com_original_filename != null">

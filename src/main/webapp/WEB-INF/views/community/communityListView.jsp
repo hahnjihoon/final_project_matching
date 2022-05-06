@@ -17,17 +17,18 @@
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet"
-   href="${ pageContext.request.contextPath}/resources/css/board.css">
+   href="${ pageContext.request.contextPath}/resources/css/community.css">
 <head>
 <title></title>
 <script type="text/javascript">
 	function showWriterForm() {
-		location.href = "${ pageContext.servletContext.contextPath}/bwform.do";
+		location.href = "${ pageContext.servletContext.contextPath}/cwform.do";
 	}
 </script>
+
 </head>
 <body>
-	<c:import url="/WEB-INF/views/common/menubar.jsp" />
+	<c:import url="/WEB-INF/views/common/header.jsp" />
 	<hr>
 	<!-- profile aside -->
 	<aside class="profile">
@@ -36,14 +37,14 @@
 				<td rowspan="2"><img
 					src="${ pageContext.servletContext.contextPath }/resources/images/profile.jpg"></td>
 				<td colspan="2">
-					<h2 style="text-align: center">${loginMember.userid }</h2>
+					<h2 style="text-align: center">${loginUser.userid }</h2>
 					<p style="text-align: center">일반회원</p>
 				</td>
 			</tr>
 			<tr>
 				<td><a href="logout.do">&nbsp;로그아웃&nbsp;</a></td>
 				<td><c:url var="callMyInfo2" value="myinfo.do">
-						<c:param name="userid" value="${ loginMember.userid }"></c:param>
+						<c:param name="userid" value="${ loginUser.userid }"></c:param>
 					</c:url> <a href="${ callMyInfo2 }">&nbsp;회원정보수정&nbsp;</a></td>
 			</tr>
 		</table>
@@ -68,10 +69,11 @@
 			<c:url var="bdt" value="cdetail.do">
 				<c:param name="com_num" value="${ b.com_num }" />
 			</c:url>
+			
 			<td>
 				<div class="inputArea" >
-				<c:if test="${ !empty b.com_original_filename }">
-					<img style="width:500%; height:500%;" src="${ pageContext.servletContext.contextPath }/resources/board_upfiles/${b.board_rename_filename}"/>
+				<c:if test="${ !empty b.com_original_file }">
+					<img style="width:500%; height:500%;" src="${ pageContext.servletContext.contextPath }/resources/community_upfiles/${b.com_rename_file}"/>
 				</c:if>
 				</div>
 			</td>

@@ -52,14 +52,12 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int insertOriginCommunity(Community community) {
-		// TODO Auto-generated method stub
-		return 0;
+		return communityDao.insertOriginCommunity(community);
 	}
 
-	@Override
-	public int updateReplySeq(Community reply) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+//	@Override
+//	public int updateReplySeq(Community reply) {
+//		return communityDao.upda
+//	}
 
 }

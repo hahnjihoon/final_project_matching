@@ -40,9 +40,9 @@ public class CommunityDao {
 		return session.update("communityMapper.updateOrigin", community);
 	}
 
-	public int updateReply(Community reply) {
-		return session.update("communityMapper.updateReply", reply);
-	}
+//	public int updateReply(Community reply) {
+//		return session.update("communityMapper.updateReply", reply);
+//	}
 
 	public int deleteCommunity(Community community) {
 		// TODO Auto-generated method stub

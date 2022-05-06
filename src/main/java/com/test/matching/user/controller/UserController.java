@@ -24,96 +24,96 @@ import com.test.matching.user.model.vo.User;
 
 @Controller
 public class UserController {
-	// ÀÌ Å¬·¡½ºÀÇ ¸Þ¼Òµå ¾È¿¡¼­ ·Î±× Ãâ·ÂÀ» ¿øÇÏ¸é ·Î±×°´Ã¼ »ý¼º
-	// src/main/resources/log4j.xml ¿¡ ¼³Á¤µÈ ³»¿ëÀ¸·Î Ãâ·ÂµÊ
+	// ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½È¿ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Î±×°ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
+	// src/main/resources/log4j.xml ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Âµï¿½
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
 
-	// ºñ¹Ð¹øÈ£ ¾ÏÈ£È­Ã³¸®
+	// ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½È£È­Ã³ï¿½ï¿½
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-// ·Î±×ÀÎ, ¾Æ¿ô °ü·Ã ¸Þ¼Òµåµé ¸ðÀ½ *********************************************************************************************	
+// ï¿½Î±ï¿½ï¿½ï¿½, ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ *********************************************************************************************	
 
-	// ·Î±×ÀÎÆäÀÌÁö ÀÌµ¿Ã³¸®¿ë¸Þ¼Òµå --------------------------------------------------
+	// ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½Ã³ï¿½ï¿½ï¿½ï¿½Þ¼Òµï¿½ --------------------------------------------------
 	@RequestMapping("loginPage.do")
 	public String moveLoginPage() {
 		return "user/loginPage";
 	}
 
-	// ·Î±×ÀÎÃ³¸®¿ë¸Þ¼Òµå
+	// ï¿½Î±ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½Þ¼Òµï¿½
 	@RequestMapping(value = "login.do", method = RequestMethod.POST)
 	public String loginMethod(User user, HttpSession session, SessionStatus status, Model model) {
 		logger.info("login.do" + user);
 
-		// ¾ÏÈ£È­ Ã³¸®µÈ ÆÐ½º¿öµå ÀÏÄ¡ Á¶È¸´Â select ÇØ¿Â °ªÀ¸·Î ºñ±³ÇØ¾ß ÇÔ
-		// È¸¿ø ¾ÆÀÌµð·Î È¸¿ø Á¤º¸¸¦ ¸ÕÀú Á¶È¸ÇÔ
+		// ï¿½ï¿½È£È­ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½È¸ï¿½ï¿½ select ï¿½Ø¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½
+		// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½
 		User loginUser = userService.selectUser(user.getUserid());
 
-		// ¾ÏÈ£È­µÈ ÆÐ½º¿öµå¿Í Àü´ÞµÈ ÆÐ½º¿öµå°¡ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ : matches(ÀÏ¹Ý±ÛÀÚ ÆÐ½º¿öµå, ¾ÏÈ£È­µÈ ÆÐ½º¿öµå)
+		// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Þµï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½Ä¡ï¿½Ï´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ : matches(ï¿½Ï¹Ý±ï¿½ï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		if (loginUser != null && bcryptPasswordEncoder.matches(user.getUserpwd(), loginUser.getUserpwd())
 				&& loginUser.getLogin_ok().equals("Y")) {
-			// ¼¼¼Ç °´Ã¼ »ý¼º > ¼¼¼Ç ¾È¿¡ È¸¿øÁ¤º¸ ÀúÀå
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			session.setAttribute("loginUser", loginUser);
-			status.setComplete(); // ·Î±×ÀÎ ¿äÃ» ¼º°ø, 200 Àü¼ÛµÊ
+			status.setComplete(); // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½, 200 ï¿½ï¿½ï¿½Ûµï¿½
 			return "common/main";
 		} else {
-			model.addAttribute("message", "·Î±×ÀÎ ½ÇÆÐ! ¾ÆÀÌµð³ª ¾ÏÈ£¸¦ È®ÀÎÇÏ¼¼¿ä. \n ¶Ç´Â ·Î±×ÀÎ Á¦ÇÑ È¸¿øÀÎÁö °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä.");
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½È£ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½. \n ï¿½Ç´ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 			return "common/error";
 		}
 	}
 
-	// ·Î±×¾Æ¿ô Ã³¸®¿ë
+	// ï¿½Î±×¾Æ¿ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("logout.do")
 	public String logoutMethod(HttpServletRequest request, Model model) {
-		// ·Î±×ÀÎÇÒ ¶§ »ý¼ºÇÑ ¼¼¼Ç°´Ã¼¸¦ ¾ø¾Ú
+		// ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç°ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		HttpSession session = request.getSession(false);
-		// ¼¼¼Ç °´Ã¼°¡ ÀÖÀ¸¸é, ¸®ÅÏ¹ÞÀ½
-		// ¼¼¼Ç °´Ã¼°¡ ¾øÀ¸¸é, null ¸®ÅÏµÊ
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, null ï¿½ï¿½ï¿½Ïµï¿½
 		if (session != null) {
-			session.invalidate(); // ÇØ´ç ¼¼¼Ç°´Ã¼ ¾ø¾Ú
+			session.invalidate(); // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½Ç°ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 			return "common/main";
 		} else {
-			model.addAttribute("message", "·Î±×ÀÎ ¼¼¼ÇÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 
-//	·Î±×ÀÎ, ¾Æ¿ô °ü·Ã ¸Þ¼Òµåµé ³¡ *********************************************************************************************
+//	ï¿½Î±ï¿½ï¿½ï¿½, ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ *********************************************************************************************
 
-//	È¸¿ø°¡ÀÔ °ü·Ã ¸Þ¼Òµåµé ¸ðÀ½  *********************************************************************************************
+//	È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  *********************************************************************************************
 
-	// È¸¿ø°¡ÀÔÆäÀÌÁö ÀÌµ¿¿ë ¸Þ¼Òµå
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	@RequestMapping("enrollPage.do")
 	public String enrollPage() {
-		return "user/enrollPage"; // ³»º¸³¾ ºäÆÄÀÏ¸í ¸®ÅÏ
+		return "user/enrollPage"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
-	// È¸¿ø°¡ÀÔ Ã³¸®¿ë
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "enroll.do", method = RequestMethod.POST)
 	public String memberInsertMethod(User user, Model model) {
-		// ¸Þ¼Òµå ¸Å°³º¯¼ö¿¡ vo¿¡ ´ëÇÑ °´Ã¼¸¦ ÀÛ¼ºÇÏ¸é,
-		// ºä form ÅÂ±× inputÀÇ name °ú voÀÇ ÇÊµå¸íÀÌ °°À¸¸é
-		// ÀÚµ¿ °ªÀÌ ²¨³»Á®¼­ °´Ã¼¿¡ ¿Å°Ü ±â·Ï ÀúÀåµÊ.
-		// Ä¿¸Çµå °´Ã¼(command object)¶ó°í ÇÔ
+		// ï¿½Þ¼Òµï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ voï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½Ï¸ï¿½,
+		// ï¿½ï¿½ form ï¿½Â±ï¿½ inputï¿½ï¿½ name ï¿½ï¿½ voï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Å°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
+		// Ä¿ï¿½Çµï¿½ ï¿½ï¿½Ã¼(command object)ï¿½ï¿½ï¿½ ï¿½ï¿½
 		logger.info("enroll.do : " + user);
 
-		// ÆÐ½º¿öµå ¾ÏÈ£È­ Ã³¸®
+		// ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­ Ã³ï¿½ï¿½
 		user.setUserpwd(bcryptPasswordEncoder.encode(user.getUserpwd()));
 		logger.info("after encode : " + user);
 
 		if (userService.insertUser(user) > 0) {
 			return "common/main";
 		} else {
-			model.addAttribute("message", "È¸¿ø°¡ÀÔ ½ÇÆÐ!");
+			model.addAttribute("message", "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error";
 		}
 
 	}
 
-	// ¾ÆÀÌµð Áßº¹ Ã¼Å© ajax Åë½Å ¿äÃ» Ã³¸®¿ë
+	// ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ßºï¿½ Ã¼Å© ajax ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "idchk.do", method = RequestMethod.POST)
 	public void dubIdCheckMethod(@RequestParam("userid") String userid, HttpServletResponse response)
 			throws IOException {
@@ -126,7 +126,7 @@ public class UserController {
 			returnValue = "dup";
 		}
 
-		// response¸¦ ÀÌ¿ëÇØ¼­ Å¬¶óÀÌ¾ðÆ®·Î Ãâ·Â½ºÆ®¸² ¸¸µé°í °ª º¸³»±â
+		// responseï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.append(returnValue);
@@ -134,7 +134,7 @@ public class UserController {
 		out.close();
 	}
 
-	// ´Ð³×ÀÓ Áßº¹ Ã¼Å© ajax Åë½Å ¿äÃ» Ã³¸®¿ë
+	// ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ßºï¿½ Ã¼Å© ajax ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "nickchk.do", method = RequestMethod.POST)
 	public void dubNickCheckMethod(@RequestParam("nick") String nick, HttpServletResponse response) throws IOException {
 		int nickcount = userService.selectDupCheckNick(nick);
@@ -146,7 +146,7 @@ public class UserController {
 			returnValue = "dup";
 		}
 
-		// response¸¦ ÀÌ¿ëÇØ¼­ Å¬¶óÀÌ¾ðÆ®·Î Ãâ·Â½ºÆ®¸² ¸¸µé°í °ª º¸³»±â
+		// responseï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.append(returnValue);
@@ -154,101 +154,111 @@ public class UserController {
 		out.close();
 	}
 
-//	È¸¿ø°¡ÀÔ °ü·Ã ¸Þ¼Òµåµé ¸ðÀ½ ³¡  *********************************************************************************************
+//	È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½  *********************************************************************************************
 
-//	³» Á¤º¸ ¼öÁ¤ °ü·Ã ¸Þ¼Òµåµé ¸ðÀ½ *********************************************************************************************
+//	ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ *********************************************************************************************
 
-	// ³» Á¤º¸º¸±â ÆäÀÌÁö ÀÌµ¿ Ã³¸®¿ë
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("myinfo.do")
 	public ModelAndView myInfoMethod(@RequestParam(value="userid") String userid, ModelAndView mv) {
 		User user = userService.selectUser(userid);
 
-		if (user != null) { // Á¶È¸°¡ ¼º°øÇß´Ù¸é
+		if (user != null) { // ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù¸ï¿½
 			mv.addObject("user", user);
 			mv.setViewName("user/myInfoPage");
-		} else { // Á¶È¸°¡ ½ÇÆÐÇß´Ù¸é
-			mv.addObject("message", userid + " : È¸¿ø Á¤º¸ Á¶È¸ ½ÇÆÐ! ");
+		} else { // ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù¸ï¿½
+			mv.addObject("message", userid + " : È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½! ");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
 
-	// Á¤º¸ ¼öÁ¤ÇÏ±â Ã³¸®¿ë
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "userUpdate.do", method = RequestMethod.POST)
 	public String userUpdateMethod(User user, Model model, @RequestParam("origin_userpwd") String originUserpwd) {
 		logger.info("userUpdate.do : " + user);
 		logger.info("origin_userpwd : " + originUserpwd);
 
-		// »õ·Î¿î ¾ÏÈ£°¡ Àü¼ÛÀÌ ¿Ô´Ù¸é
-		String userpwd = user.getUserpwd().trim(); // °ø¹éÁ¦°ÅÃ³¸®
+		// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ù¸ï¿½
+		String userpwd = user.getUserpwd().trim(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 		if (userpwd != null && userpwd.length() > 0) {
-			// ±âÁ¸ ¾ÏÈ£¿Í ´Ù¸¥ °ªÀÌ¸é
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
 			if (!bcryptPasswordEncoder.matches(userpwd, originUserpwd)) {
-				// ¸â¹ö¿¡ »õ·Î¿î ¾ÏÈ£¸¦ ÀúÀå : ¾ÏÈ£È­Ã³¸®
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½È£È­Ã³ï¿½ï¿½
 				user.setUserpwd(bcryptPasswordEncoder.encode(userpwd));
 			}
 		} else {
-			// »õ·Î¿î ¾ÏÈ£°¡ ¾ø´Ù¸é ¿ø·¡ ¾ÏÈ£ ±â·ÏÇÔ
+			// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½
 			user.setUserpwd(originUserpwd);
 		}
 
 		logger.info("after : " + user);
 
 		if (userService.updateUser(user) > 0) {
-			// ¼öÁ¤ÀÌ ¼º°øÇß´Ù¸é, ÄÁÆ®·Ñ·¯ÀÇ ¸Þ¼Òµå¸¦ Á÷Á¢ È£Ãâ(½ÇÇà)ÇÒ ¼öµµ ÀÖÀ½
-			// ³» Á¤º¸º¸±â ÆäÀÌÁö¿¡ ¼öÁ¤µÈ È¸¿øÁ¤º¸¸¦ ´Ù½Ã Á¶È¸ÇØ ¿Í¼­ Ãâ·ÂµÇ°Ô Ã³¸®
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù¸ï¿½, ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ ï¿½Þ¼Òµå¸¦ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½Í¼ï¿½ ï¿½ï¿½ÂµÇ°ï¿½ Ã³ï¿½ï¿½
 			return "redirect: myinfo.do?userid=" + user.getUserid();
 		} else {
-			model.addAttribute("message", "È¸¿øÁ¤º¸ ¼öÁ¤ ½ÇÆÐ!");
+			model.addAttribute("message", "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error.jsp";
 		}
 
 	}
 
-	// È¸¿ø Å»Åð Ã³¸® (»èÁ¦Ã³¸®)
+	// È¸ï¿½ï¿½ Å»ï¿½ï¿½ Ã³ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½)
 	@RequestMapping("udel.do")
 	public String memberDeleteMethod(@RequestParam("userid") String userid, Model model) {
 		if (userService.deleteUser(userid) > 0) {
 			return "redirect:logout.do";
 		} else {
-			model.addAttribute("message", userid + "È¸¿ø Á¤º¸ »èÁ¦ ½ÇÆÐ!");
+			model.addAttribute("message", userid + "È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error";
 		}
 	}
 
-//	³» Á¤º¸ ¼öÁ¤ °ü·Ã ¸Þ¼Òµåµé ¸ðÀ½ ³¡ *********************************************************************************************
+//	ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ *********************************************************************************************
 
-//	³×ÀÌ¹ö ·Î±×ÀÎ ¿¬µ¿ °ü·Ã ¸Þ¼Òµåµé ¸ðÀ½   *********************************************************************************************
+//	ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½   *********************************************************************************************
 	
 	@RequestMapping(value="naverLogin.do", method= RequestMethod.GET) 
-	public String index() { 
+	public String index(HttpServletRequest request) { 
 		logger.info("naverLogin.do : "); 
+		HttpSession session = request.getSession();
+        User loginUser = (User)session.getAttribute("loginUser");
+        String userid = loginUser.getUserid();
+		
+		
+		
 		return "user/naverLoginPage"; 
 	}
 	
 	@RequestMapping(value="naverCallBack.do", method=RequestMethod.GET) 
-	public String loginPOSTNaver(HttpSession session) { 
-		logger.info("naverCallBack.do : "); 
+	public String loginPOSTNaver(HttpServletRequest request) { 
+		logger.info("naverCallBack.do : ");
+
+		HttpSession session = request.getSession();
+        User loginUser = (User)session.getAttribute("loginUser");
+        String userid = loginUser.getUserid();
 		return "user/naverLoginCallBack"; 
 	}
 	
 	
 	
-//	³×ÀÌ¹ö ·Î±×ÀÎ ¿¬µ¿ °ü·Ã ¸Þ¼Òµåµé ¸ðÀ½ ³¡  *********************************************************************************************
+//	ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½  *********************************************************************************************
 	
 	
 	
-	// IDÃ£±â ÆäÀÌÁö ÀÌµ¿¿ë ¸Þ¼Òµå
+	// IDÃ£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	@RequestMapping("findId.do")
 	public String findIdPage() {
-		return "user/findIdPage"; // ³»º¸³¾ ºäÆÄÀÏ¸í ¸®ÅÏ
+		return "user/findIdPage"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
-	// ºñ¹Ð¹øÈ£Ã£±â ÀÌµ¿¿ë ¸Þ¼Òµå
+	// ï¿½ï¿½Ð¹ï¿½È£Ã£ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	@RequestMapping("findPwd.do")
 	public String findPwdPage() {
-		return "user/findPwdPage"; // ³»º¸³¾ ºäÆÄÀÏ¸í ¸®ÅÏ
+		return "user/findPwdPage"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
 }

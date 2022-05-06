@@ -30,9 +30,6 @@ public class Paging {
 		this.endRow = endRow;
 	}
 
-	
-	
-	
 	public String getUserid() {
 		return userid;
 	}

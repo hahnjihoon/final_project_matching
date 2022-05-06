@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeMapper">
+	
+	<resultMap type="Notice" id="resultNotice">
+		<id column="notice_num" property="notice_num" />
+		<result column="notice_title" property="notice_title" />
+		<result column="notice_date" property="notice_date" />
+		<result column="notice_id" property="notice_id" />
+		<result column="notice_content" property="notice_content" />
+	</resultMap>
+	
+	<resultMap id="noticeTop3Result" type="Notice">
+		<id property="notice_num" column="notice_num"/>
+		<result property="notice_title" column="notice_title"/>		
+		<result property="notice_date" column="notice_date"/>				
+	</resultMap>
+	
+	<select id="selectAll" resultMap="resultNotice">
+		select * from notice
+		order by notice_num desc
+	</select>
+	
+	<select id="selectNotice" parameterType="_int" resultMap="resultNotice">
+		select * from notice
+		where notice_num = #{ notice_num }
+	</select>
+	
+	<select id="selectNewTop3" resultMap="noticeTop3Result">
+		<![CDATA[
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, notice_num, notice_title, notice_date
+		          FROM (SELECT * FROM NOTICE
+		                     ORDER BY notice_date desc, notice_num DESC))
+		WHERE RNUM >= 1 AND RNUM <= 3
+		]]>
+	</select>
+	
+	<select id="searchTitle" parameterType="string" resultMap="resultNotice">
+		select * from notice
+		where notice_title like '%' || #{ keyword } || '%'
+	</select>
+	
+	<select id="searchWriter" parameterType="string" resultMap="resultNotice">
+		select * from notice
+		where notice_id like '%' || #{ keyword } || '%'
+	</select>
+	
+	<select id="searchDate" parameterType="SearchDate" 
+	resultMap="resultNotice">
+		select * from notice
+		where notice_date between #{ begin } and #{ end }
+	</select>
+	
+	<insert id="insertNotice" parameterType="Notice">
+		insert into notice 		
+			(notice_num, notice_title, notice_id, 
+			notice_content, notice_date)
+			values ((select max(notice_num) + 1 from notice), 
+			#{ notice_title }, #{ notice_id }, #{notice_content}, 
+			sysdate)		
+	</insert>
+	
+	<update id="updateNotice" parameterType="Notice">
+		update notice
+		set notice_title = #{ notice_title },
+		   notice_content = #{ notice_content }
+		   
+		where notice_num = #{ notice_num } 
+	</update>
+	
+	<delete id="deleteNotice" parameterType="_int">
+		delete from notice
+		where notice_num = #{ notice_num }
+	</delete>
+
+
+
+</mapper>

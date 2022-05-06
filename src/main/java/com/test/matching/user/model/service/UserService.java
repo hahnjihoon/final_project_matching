@@ -6,18 +6,19 @@ import com.test.matching.common.SearchDate;
 import com.test.matching.user.model.vo.User;
 
 public interface UserService {
-	   User selectLogin(User user);
-	   int insertUser(User user);
-	   int selectDupCheckId(String userid); //È¸¿ø°¡ÀÔ½Ã ¾ÆÀÌµðÁßº¹Ã¼Å©¸Þ¼Òµå
-	   int selectDupCheckNick(String nick); //È¸¿ø°¡ÀÔ½Ã ´Ð³×ÀÓÁßº¹Ã¼Å©¸Þ¼Òµå
-	   int updateUser(User user);
-	   int deleteUser(String userid);
-	   ArrayList<User> selectList();
-	   User selectUser(String userid);
-	   int updateLoginOk(User user);
-	   ArrayList<User> selectSearchUserid(String keyword);
-	   ArrayList<User> selectSearchGender(String keyword);
-	   ArrayList<User> selectSearchAge(int age);
-	   ArrayList<User> selectSearchEnrollDate(SearchDate searchDate);
-	   ArrayList<User> selectSearchLoginOk(String keyword);
+      User selectLogin(User user);
+      int insertUser(User user);
+      int selectDupCheckId(String userid); //È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ßºï¿½Ã¼Å©ï¿½Þ¼Òµï¿½
+      int selectDupCheckNick(String nick); //È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ßºï¿½Ã¼Å©ï¿½Þ¼Òµï¿½
+      int updateUser(User user);
+      int deleteUser(String userid);
+      ArrayList<User> selectList();
+      User selectUser(String userid);
+      int updateLoginOk(User user);
+      ArrayList<User> selectSearchUserid(String keyword);
+      ArrayList<User> selectSearchGender(String keyword);
+      ArrayList<User> selectSearchAge(int age);
+      ArrayList<User> selectSearchEnrollDate(SearchDate searchDate);
+      ArrayList<User> selectSearchLoginOk(String keyword);
+      ArrayList<User> selectList2();
 }

@@ -38,7 +38,7 @@
 			<caption>글 쓰기</caption>
 			<tr>
 				<th style="width: 100px;">작성자</th>
-				<td><input type="text" name="com_writer" readonly value="${ loginMember.userid }"></td>
+				<td><input type="text" name="com_writer" readonly value="${ loginUser.userid }"></td>
 			</tr>
 			<tr>
 				<th style="width: 100px;">이미지</th>
@@ -62,7 +62,7 @@
 				<td colspan="2" align="center">
 					<button type="submit" class="btn btn-success btn-sm">저장</button>
 					<button type="button" class="btn btn-danger btn-sm"
-						onclick="location.href='blist.do'">취소</button>
+						onclick="location.href='clist.do'">취소</button>
 				</td>
 			</tr>
 		</table>
