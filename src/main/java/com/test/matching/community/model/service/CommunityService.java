@@ -6,12 +6,12 @@ import com.test.matching.common.Paging;
 import com.test.matching.community.model.vo.Community;
 
 public interface CommunityService {
-	int selectListCount();  //ÃÑ °Ô½Ã±Û °¹¼ö Á¶È¸¿ë (ÆäÀÌÁö ¼ö °è»ê¿ë)
-	ArrayList<Community> selectList(Paging page); //ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ °Ô½Ã±Û Á¶È¸¿ë
-	Community selectCommunity(int com_num); //ÇØ´ç ¹øÈ£¿¡ ´ëÇÑ °Ô½Ã±Û »ó¼¼ Á¶È¸¿ë
-	int updateAddReadcount(int com_num);  //»ó¼¼º¸±â½Ã¿¡ Á¶È¸¼ö 1Áõ°¡ Ã³¸®¿ë
-	int insertOriginCommunity(Community community); //¿ø±Û µî·Ï¿ë
-//	int updateReplySeq(Community reply);  //´ñ±Û µî·Ï½Ã ±âÁ¸ ´ñ±Û¼ø¹ø 1Áõ°¡ Ã³¸®¿ë
-	int updateOrigin(Community board);  //¿ø±Û ¼öÁ¤¿ë
-	int deleteCommunity(Community board);  //°Ô½Ã±Û »èÁ¦¿ë
+	int selectListCount();  //ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+	ArrayList<Community> selectList(Paging page); //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½È¸ï¿½ï¿½
+	Community selectCommunity(int com_num); //ï¿½Ø´ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½
+	int updateAddReadcount(int com_num);  //ï¿½ó¼¼ºï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
+	int insertOriginCommunity(Community community); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½
+//	int updateReplySeq(Community reply);  //ï¿½ï¿½ï¿½ ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Û¼ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
+	int updateOrigin(Community community);  //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int deleteCommunity(Community community);  //ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }

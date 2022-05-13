@@ -21,4 +21,6 @@ public interface UserService {
       ArrayList<User> selectSearchEnrollDate(SearchDate searchDate);
       ArrayList<User> selectSearchLoginOk(String keyword);
       ArrayList<User> selectList2();
+      int count1();
+  	int count();
 }

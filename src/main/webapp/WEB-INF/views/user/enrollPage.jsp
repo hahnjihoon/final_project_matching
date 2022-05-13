@@ -72,13 +72,35 @@
       });
    }
    
+   function setThumbnail(event) {
+	   var reader = new FileReader(); 
+	   
+	   reader.onload = function(event) {
+	      var img = document.createElement("img");
+	      img.setAttribute("src", event.target.result);
+	      document.querySelector("div#image_container").appendChild(img);
+	      }; 
+	      reader.readAsDataURL(event.target.files[0]);
+	}
+   
+   function setThumbnail2(event) {
+	   var reader = new FileReader(); 
+	   
+	   reader.onload = function(event) {
+	      var img = document.createElement("img");
+	      img.setAttribute("src", event.target.result);
+	      document.querySelector("div#image_container2").appendChild(img);
+	      }; 
+	      reader.readAsDataURL(event.target.files[0]);
+	}
+   
 </script>
 </head>
 <body>
    <center>
       <h1 align="center">회원 가입 페이지</h1>
       <br>
-      <form action="enroll.do" method="post" onsubmit="return validate();" >   <!-- submit 될 때 유효한 데이터인지 확인할 수 있음 유효성 검사-->
+      <form action="enroll.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">   <!-- submit 될 때 유효한 데이터인지 확인할 수 있음 유효성 검사-->
          <table id="outer" align="center" width="500" cellspacing="5" cellpadding="0">
             <tr>
                <th colspan="2">회원 정보를 입력해 주세요. (* 표시는 필수입력 항목입니다,)</th>                              
@@ -112,7 +134,8 @@
             </tr>   
             <tr>
                <th width="120">본인 사진</th>
-               <td><input type="text" name="img_name" required></td>   <!-- required 영역에 없으면 전송 안됨 -->               
+               <td><div align="center" id="image_container"></div></td>   <!-- required 영역에 없으면 전송 안됨 -->       
+               <tr><th>첨부파일</th><td><input type="file" id="image" accept="image/*"  onchange="setThumbnail(event);" name="upfile" required>       
             </tr>   
             <tr>
                <th width="120">얼굴 외형</th>
@@ -189,7 +212,8 @@
             </tr>
             <tr>
                <th width="120">이상형 사진</th>
-               <td><input type="text" name="img_name2" required></td>   <!-- required 영역에 없으면 전송 안됨 -->               
+               <td><div align="center" id="image_container2"></div></td>   <!-- required 영역에 없으면 전송 안됨 -->       
+               <tr><th>첨부파일</th><td><input type="file" id="image2" accept="image/*"  onchange="setThumbnail2(event);" name="upfile2" required>              
             </tr>   
             <tr>
                <th width="120">이상형 외모</th>

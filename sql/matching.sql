@@ -128,16 +128,18 @@ select nick from users where userid = 'lchano';
 ----  qa  DB -----------------------------------
 
 CREATE TABLE qa (
-	qa_num	number	primary key,
-	qa_title	varchar2(100)	NULL,
-	qa_content	varchar2(100)	NULL,
-	qa_date	date default sysdate	NULL,
-	qa_ref	number	NULL,
-	qa_reply_ref	number	NULL,
-	qa_reply_lev	number	NULL,
-	qa_reply_seq	number	NULL,
-    qa_id varchar2(100) unique,
-    constraint fk_qa_nick foreign key(qa_id) references users(userid)
+	qa_num	number,
+    qa_id varchar2(100) not null,
+	qa_title varchar2(100) not NULL,
+	qa_content	varchar2(2000)	not NULL,
+	qa_ref	number,
+	qa_reply_ref	number,
+	qa_lev	number default 1,
+	qa_reply_seq	number default 1,
+    qa_readcount number default 0,
+    qa_date date default sysdate,
+    constraint pk_qa primary key (qa_num),
+    constraint fk_qa_nick foreign key(qa_id) references users(userid) on delete set null
 );
 
 CREATE SEQUENCE qa_seq
@@ -148,6 +150,28 @@ MAXVALUE 10000
 NOCYCLE
 NOCACHE
 ORDER ;
+
+INSERT INTO qa 
+VALUES (1, '1212', 'qa1', '저희 사이트를 이용해 주셔서 감사합니다.', 
+1, null, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO qa
+VALUES (2, '1212', 'MVC Model2', '웹 어플리케이션 설계 방식 중 MVC 디자인 패턴 모델2 방식의 한 유형입니다.', 
+2, null, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO qa 
+VALUES (3, '1212', '설계방식2', '설계방식 2번째로는 First Controller 를 사용하는 방식이 있습니다.', 
+3, null, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO qa 
+VALUES (4, '1313', '설계방식3', '3번째 방식은 액션을 이용하는 방식입니다.', 
+4, null, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+INSERT INTO qa 
+VALUES (5, 'admin', 'QnA', '회원탈퇴방법은?', 
+5, null, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+
+commit;
 
 ---- qa DB END ----------------------------
 

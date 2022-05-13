@@ -125,10 +125,10 @@ li{
             <li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">이상형추천</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">매력평가</a></li>
-            <li><a href="">1:1대화방</a></li>
-            <li><a href="${ pageContext.servletContext.contextPath }/clist.do">커뮤니티</a></li>
-            <li><a href="">Q&A</a></li>
-            <li><a href="">개인정보수정</a></li>
+            <li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">1:1대화방</a></li>
+            <li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">커뮤니티</a></li>
+            <li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">Q&A</a></li>
+            <li><a href="${ pageContext.servletContext.contextPath }/loginPage.do">개인정보수정</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/main.do">홈</a></li>
          </ul>
       </div>
@@ -141,10 +141,18 @@ li{
             <li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/appealPage.do">매력평가</a></li>
-            <li><a href="">1:1대화방</a></li>
+           <li><a href="${ pageContext.servletContext.contextPath }/message_list.do">1:1대화방</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/clist.do">커뮤니티</a></li>
-            <li><a href="">Q&A</a></li>
-            <li><a href="">개인정보수정</a></li>
+            <li><a href="${ pageContext.servletContext.contextPath }/blist.do">Q&A</a></li>
+            <c:if test="${ !empty loginUser }">   <!-- 로그인 했을때 -->
+       		    
+            	<c:url var = "callMyInfo2" value="/myinfo.do">   <!-- 내 정보 보기 -->
+              	 <c:param name="userid" value="${ loginUser.userid }"/>
+            	</c:url>
+            	
+            <li><a href="${ callMyInfo2 }">개인정보수정</a></li>
+            
+      		</c:if>
             <li><a href="${ pageContext.servletContext.contextPath }/main2.do">홈</a></li>
          </ul>
          </div>
@@ -157,10 +165,18 @@ li{
             <li><a href="${ pageContext.servletContext.contextPath }/nlist.do">공지사항</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/matchingPage.do">이상형추천</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/appealPage.do">매력평가</a></li>
-            <li><a href="">1:1대화방</a></li>
+            <li><a href="${ pageContext.servletContext.contextPath }/message_list.do">1:1대화방</a></li>
             <li><a href="${ pageContext.servletContext.contextPath }/clist.do">커뮤니티</a></li>
-            <li><a href="">Q&A</a></li>
-            <li><a href="">개인정보수정</a></li>
+            <li><a href="${ pageContext.servletContext.contextPath }/blist.do">Q&A</a></li>
+            <c:if test="${ !empty loginUser }">   <!-- 로그인 했을때 -->
+       		    
+            	<c:url var = "callMyInfo3" value="/myinfo.do">   <!-- 내 정보 보기 -->
+              	 <c:param name="userid" value="${ loginUser.userid }"/>
+            	</c:url>
+            	
+            <li><a href="${ callMyInfo3 }">개인정보수정</a></li>
+            
+      		</c:if>
             <li><a href="${ pageContext.servletContext.contextPath }/main2.do">홈</a></li>
          </ul>
          </div>

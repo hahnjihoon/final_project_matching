@@ -88,8 +88,8 @@
 	
 	<insert id="insertReply1" parameterType="community">
 		insert into community  (com_num, com_writer,
-				com_content, com_original_filename, 
-				com_rename_filename, com_date, 
+				com_content, com_original_file, 
+				com_rename_file, com_date, 
 				com_lev, com_ref, com_reply_ref,
 				com_reply_seq, com_readcount)
 		values ((select max(com_num) + 1 from community ), 
@@ -100,9 +100,9 @@
 	</insert>
 	
 	<insert id="insertReply2" parameterType="community">
-		insert into community  (com_num,  com_writer,
-				com_content, com_original_filename, 
-				com_rename_filename, com_date, 
+		insert into community  (com_num, com_writer,
+				com_content, com_original_file, 
+				com_rename_file, com_date, 
 				com_lev, com_ref, com_reply_ref,
 				com_reply_seq, com_readcount)
 		values ((select max(com_num) + 1 from community ), 
@@ -110,18 +110,10 @@
 				null, null, sysdate, 3, #{com_ref}, 
 				#{com_reply_ref}, #{com_reply_seq}, default)
 	</insert>
-
-	<delete id="deletecom" parameterType="community">
+	
+	<delete id="deleteCommunity" parameterType="community">
 		delete from community  
-		<if test="com_lev == 1">
-			where com_ref = #{com_num}
-		</if>
-		<if test="com_lev == 2">
-			where com_reply_ref = #{com_num}
-		</if>
-		<if test="com_lev == 3">
-			where com_num = #{com_num}
-		</if>		
+			where com_num = #{com_num}		
 	</delete>
 	
 	<update id="updateReply" parameterType="community">
@@ -131,18 +123,18 @@
 	</update>
 	
 	<update id="updateOrigin" parameterType="community">
-		update community  
-		set com_content = #{com_content}, 
-			<if test="com_original_filename != null">
-			com_original_filename = #{com_original_filename}, 
-			com_rename_filename = #{com_rename_filename} 
-			</if>
-			<if test="com_original_filename == null">
-			, 
-			com_original_filename = null, 
-			com_rename_filename = null 
-			</if>
-		where com_num = #{com_num}
+		update Community 
+      set com_content = #{com_content}, 
+         <if test="com_original_file != null">
+         com_original_file = #{com_original_file}, 
+         com_rename_file = #{com_rename_file} 
+         </if>
+         <if test="com_original_file == null">
+         , 
+         com_original_file = null, 
+         com_rename_file = null 
+         </if>
+      where com_num = #{com_num}
 	</update>
 	
 </mapper>

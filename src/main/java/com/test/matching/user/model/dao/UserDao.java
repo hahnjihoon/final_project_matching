@@ -18,11 +18,19 @@ public class UserDao {
 
       public UserDao() {}
       
-      //�޼ҵ�� �����ʰ� �Ȱ���   
+      //占쌨소듸옙占� 占쏙옙占쏙옙占십곤옙 占싫곤옙占쏙옙   
       public User selectLogin(User user) {
          return session.selectOne("userMapper.selectLogin", user);
       }
-
+      
+      public int count() {
+	     return session.selectOne("userMapper.count");
+	  }
+	  
+	  public int count1() {
+	     return session.selectOne("userMapper.count1");
+	  }
+    	  
       public int insertUser(User user) {
          return session.insert("userMapper.insertUser", user);
       }

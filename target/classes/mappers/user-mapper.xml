@@ -100,6 +100,17 @@
       where nick = #{ nick }   
    </select>
    
+   <select id="count" resultType="_int">
+      select max(face_num)
+      from userface
+   </select>
+   
+      <select id="count1" resultType="_int">
+      select max(idealface_num)
+      from idealface
+   </select>
+   
+   
    <select id="selectMatching"  parameterType="string" resultMap="resultList">
       select A.img_name, A.nick, A.age, A.height, A.address, A.userjob, A.figure, A.hobby 
       from users A, (select userid, eyes, nose, mouth, gender from users where userid= 'hahnjihoon') B
@@ -120,8 +131,8 @@
       userjob, img_name2, eyes, nose, mouth,
       enroll_date, admin, block, userlike, lastmodified, login_ok)
       values (#{ userid }, #{ userpwd }, #{ username },
-      #{ email }, ${ phone }, #{img_name }, #{ myeyes }, #{ mynose }, #{ mymouth }, #{ nick }, #{ height}, 
-      #{ gender }, #{ address }, #{ age }, #{ hobby }, #{ figure}, 
+      #{ email }, #{ phone }, #{ img_name }, #{ myeyes }, #{ mynose }, #{ mymouth }, #{ nick }, #{ height }, 
+      #{ gender }, #{ address }, #{ age }, #{ hobby }, #{ figure }, 
       #{ userjob }, #{ img_name2 }, #{ eyes }, #{ nose }, #{ mouth },
        sysdate, default, default, default, sysdate, default)
    </insert>

@@ -44,7 +44,17 @@ public class UserServiceImpl implements UserService {
       public int deleteUser(String userid) {
          return userDao.deleteUser(userid);
       }
-
+      
+      @Override
+      public int count() {
+         return userDao.count();
+      }
+      
+      @Override
+      public int count1() {
+         return userDao.count1();
+      }
+      
       @Override
       public ArrayList<User> selectList() {
          return userDao.selectList();

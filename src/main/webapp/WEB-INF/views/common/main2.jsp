@@ -63,7 +63,7 @@ $(function(){
 	});
 	
 	
-	/* //조회수 많은 인기게시원글 상위3개 조회출력
+	//조회수 많은 인기게시원글 상위3개 조회출력
 	$.ajax({
 		url: "btop3.do",
 		type: "post",
@@ -79,8 +79,8 @@ $(function(){
 			
 			var values = "";
 			for(var i in json.list){ //i변수가 자동으로1씩증가
-				values += "<tr><td>"+json.list[i].board_num+"</td><td><a href='bdetail.do?board_num="+json.list[i].board_num+"'>"
-						+decodeURIComponent(json.list[i].board_title).replace(/\+/gi, " ")+"</a></td><td>"+json.list[i].board_readcount+"</td></tr>";
+				values += "<tr><td>"+json.list[i].qa_num+"</td><td><a href='bdetail.do?qa_num="+json.list[i].qa_num+"'>"
+						+decodeURIComponent(json.list[i].qa_title).replace(/\+/gi, " ")+"</a></td><td>"+json.list[i].qa_readcount+"</td></tr>";
 						
 				
 				
@@ -93,7 +93,7 @@ $(function(){
 			console.log("error : "+jqXHR+", "+textstatus+", "+errorthrown);
 		}
 		
-	}); */
+	});
 	
 });
 </script>

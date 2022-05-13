@@ -14,11 +14,18 @@
 		<typeAlias type="com.test.matching.common.SearchDate" alias="SearchDate" />
 		<typeAlias type="com.test.matching.common.Paging" alias="Paging" />
 		<typeAlias type="com.test.matching.community.model.vo.Community" alias="Community" />
+		<typeAlias type="com.test.matching.message.model.vo.Message" alias="Message" />
+		<typeAlias type="com.test.matching.chat.model.vo.ChatMessage" alias="ChatMessage" />
+		<typeAlias type="com.test.matching.chat.model.vo.ChatRoom" alias="ChatRoom" />
+		<typeAlias type="com.test.matching.qa.model.vo.Qa" alias="Qa" />
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/user-mapper.xml" />
 		<mapper resource="mappers/notice-mapper.xml" />
 		<mapper resource="mappers/community-mapper.xml" />
+		<mapper resource="mappers/message-mapper.xml"/>
+		<mapper resource="mappers/chat-mapper.xml"/>
+		<mapper resource="mappers/qa-mapper.xml"/>
 	</mappers>
 </configuration>

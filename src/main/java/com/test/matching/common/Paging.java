@@ -6,6 +6,12 @@ public class Paging {
 	private String userid;
 	
 	public Paging() {}
+	
+	public Paging(int startRow, int endRow) {
+		super();
+		this.startRow = startRow;
+		this.endRow = endRow;
+	}
 
 	public Paging(int startRow, int endRow, String userid) {
 		super();

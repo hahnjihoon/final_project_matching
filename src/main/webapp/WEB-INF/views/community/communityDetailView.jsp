@@ -9,6 +9,8 @@
 <c:set var="endPage" value="${ requestScope.endPage}" />
 <c:set var="maxPage" value="${ requestScope.maxPage}" />
 <c:set var="currentPage" value="${ requestScope.currentPage}" />
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,7 +67,7 @@
 			<table class="table table-bordered" style="width: 1050px;">
 				<tr>
 					<td>작성자 : ${community.com_writer} <span style="margin-left: 800px;">
-							<fmt:formatDate value="${community.com_date}"
+							<fmt:formatDate value="${b.com_date}"
 								pattern="yyyy-MM-dd HH:mm" />
 					</span><br>
 					</td>
@@ -78,7 +80,7 @@
 	 <c:if test="${ requestScope.community.com_writer eq sessionScope.loginUser.userid }">
 		<c:url var="bup" value="/cupview.do">
 			<c:param name="com_num" value="${ community.com_num }"/>
-			<c:param name="page" value= "${ currentPage }"/>
+			<c:param name="page" value="${ currentPage }"/>
 		</c:url>
 		<a href="${ bup }">[수정페이지로 이동]]</a> &nbsp;
 		<c:url var="bdt" value="/cdel.do">

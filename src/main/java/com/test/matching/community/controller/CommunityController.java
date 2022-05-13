@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.test.matching.common.Paging;
 import com.test.matching.community.model.service.CommunityService;
 import com.test.matching.community.model.vo.Community;
-import com.test.matching.user.model.service.UserService;
+import com.test.matching.notice.model.vo.Notice;
 import com.test.matching.user.model.vo.User;
 
 @Controller
@@ -49,9 +49,9 @@ public class CommunityController {
 		int listCount = CommunityService.selectListCount();
 		// ������ �� ���
 		// ���� : ����� 11���̸�, ������ ���� 2�� �� (������ ��� 1���� ����������� 1���� �ʿ���)
-		int maxPage = (int) ((double) listCount / limit + 0.9);
+		int maxPage = (int) ((double)listCount / limit + 0.9);
 		// ���� �������� ���Ե� ������ �׷��� ���۰� ����(�� �Ʒ��ʿ� ǥ���� ������ ���� 5���� �� ���)
-		int startPage = (int) ((double) currentPage / 5 + 0.9);
+		int startPage = (int) ((double)currentPage / 5 + 0.9);
 		// ���� �������� ���Ե� ������ �׷��� ����
 		int endPage = startPage + 5 - 1;
 
@@ -83,7 +83,6 @@ public class CommunityController {
 			mv.addObject("message", currentPage + "������ ��� ��ȸ ����");
 			mv.setViewName("common/error");
 		}
-
 		return mv;
 	}
 
@@ -137,35 +136,55 @@ public class CommunityController {
 		}
 	}
 
-	// �Խñ� �󼼺��� ó��
-	@RequestMapping("cdetail.do")
-	public ModelAndView CommunityDetailMethod(ModelAndView mv, @RequestParam("com_num") int com_num,
-			@RequestParam(name = "page", required = false) String page) {
-		int currentPage = 1;
-		if (page != null) {
-			currentPage = Integer.parseInt(page);
-
-		}
-		// ��ȸ�� 1���� ó��
-		CommunityService.updateAddReadcount(com_num);
-
-		// �ش� �Խñ� ��ȸ
-		Community community = CommunityService.selectCommunity(com_num);
-
-		if (community != null) {
-			mv.addObject("Community", community);
-			mv.addObject("currentPage", currentPage);
-			mv.setViewName("community/communityDetailView");
-		} else {
-			mv.addObject("message", com_num + "�� �Խñ� ��ȸ ����.");
-			mv.setViewName("common/error");
-		}
-
-		return mv;
-	}
+	//게시글 상세보기 처리
+	   @RequestMapping("cdetail.do")
+	   public ModelAndView communityDetailMethod(ModelAndView mv, @RequestParam("com_num") int com_num, @RequestParam(name="page", required=false) String page) {
+	      int currentPage = 1;
+	      if(page != null) {
+	         currentPage = Integer.parseInt(page);
+	         
+	      }
+	      //조회수 1증가 처리
+	      CommunityService.updateAddReadcount(com_num);
+	      
+	      //해당 게시글 조회
+	      Community community = CommunityService.selectCommunity(com_num);
+	      
+	      if(community != null) {
+	         mv.addObject("community", community);
+	         mv.addObject("currentPage", currentPage);
+	         mv.setViewName("community/communityDetailView");
+	      }else {
+	         mv.addObject("message", com_num + "번 게시글 조회 실패.");
+	         mv.setViewName("common/error");
+	      }
+	      
+	      return mv;
+	   }
+//		
+//		int currentPage = 1;
+//		if (page != null) {
+//			currentPage = Integer.parseInt(page);
+//
+//		}
+//		// ��ȸ�� 1���� ó��
+//		CommunityService.updateAddReadcount(com_num);
+//		
+//
+//		if (community != null) {
+//			mv.addObject("Community", community);
+//			mv.addObject("currentPage", currentPage);
+//			mv.setViewName("community/communityDetailView");
+//		} else {
+//			mv.addObject("message", com_num + "�� �Խñ� ��ȸ ����.");
+//			mv.setViewName("common/error");
+//		}
+//
+//		return mv;
 
 	@RequestMapping("cfdown.do")
-	public ModelAndView fileDownMethod(HttpServletRequest request, @RequestParam("ofile") String originFileName,
+	public ModelAndView fileDownMethod(HttpServletRequest request,
+			@RequestParam("ofile") String originFileName,
 			@RequestParam("rfile") String renameFileName, ModelAndView mv) {
 		// �������� ÷������ ���� ���� ��� ����
 		String savePath = request.getSession().getServletContext().getRealPath("resources/community_upfiles");
@@ -202,88 +221,89 @@ public class CommunityController {
 	}
 
 	// ������������ �̵�
-	@RequestMapping("cupview.do")
-	public String moveCommunityUpdateView(@RequestParam("com_num") int com_num, @RequestParam("page") int currentPage,
-			Model model) {
-		Community Community = CommunityService.selectCommunity(com_num);
-		if (Community != null) {
-			model.addAttribute("Community", Community);
-			model.addAttribute("page", currentPage);
-			return "Community/communityUpdateView";
-		} else {
-			model.addAttribute("message", com_num + "�� �� ������������ �̵� ����.");
-			return "common/error";
-		}
-	}
+	//수정페이지로 이동
+	   @RequestMapping("cupview.do")
+	   public String moveCommunityUpdateView(@RequestParam("com_num") int com_num, @RequestParam("page") int currentPage, Model model) {
+	      Community community = CommunityService.selectCommunity(com_num);
+	      
+	      if(community != null) {
+	         model.addAttribute("community", community);
+	         model.addAttribute("page", currentPage);
+	         return "community/communityUpdateForm";
+	      }else {
+	         model.addAttribute("message", com_num + "번 글 수정페이지로 이동 실패.");
+	         return "common/error";
+	      }
+	   }
 
-
-	@RequestMapping(value = "coriginup.do", method = RequestMethod.POST)
-	public String CommunityUpdateMethod(Community community, HttpServletRequest request, Model model,
-			@RequestParam("page") int page, @RequestParam(name = "delFlag", required = false) String delFlag,
-			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		// ���ε�� ���� ���� ���� �����ϱ�
-		String savePath = request.getSession().getServletContext().getRealPath("resources/community_upfiles");
-
-		// ÷�� ���� ���� ó�� ---------------------------
-		// ���� ÷�������� �ִµ� ������ ������ ���
-		if (community.getCom_original_file() != null && delFlag != null && delFlag.equals("yes")) {
-			// ���� �������� �ش� ������ ������
-			new File(savePath + "\\" + community.getCom_rename_file()).delete();
-			// Community �� ���������� ������
-			community.setCom_original_file(null);
-			community.setCom_rename_file(null);
-
-		}
-		// ���ο� ÷�����Ϥ� ������ ��
-		if (!mfile.isEmpty()) {
-			// ���� ������ ���� ������ ������
-			if (community.getCom_original_file() != null) {
-				// ���� �������� �ش� ������ ������
-				new File(savePath + "\\" + community.getCom_rename_file()).delete();
-				// Community �� ���������� ������
-				community.setCom_original_file(null);
-				community.setCom_rename_file(null);
-			}
-			// ���� ÷�������� ���� ��� --------------------
-			String fileName = mfile.getOriginalFilename();
-			// �̸� �ٲٱ� ó�� : �� �� �� �� ��.Ȯ����
-			if (fileName != null && fileName.length() > 0) {
-				// �ٲ� ���ϸ� ���� ���ڿ� �����
-				// ������ ��� ��û������ ��¥������ �̿���
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-				// ������ ���� �̸� �����
-				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
-				// ���� ������ Ȯ���ڸ� �����ؼ�, ���� ���ϸ� �ٿ���
-				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-
-				// ���ϰ�ü �����
-				File originFile = new File(savePath + "\\" + fileName);
-				File renameFile = new File(savePath + "\\" + renameFileName);
-
-				// ���ε� ���� �����Ű��, �ٷ� �̸��ٲٱ� ������
-				try {
-					mfile.transferTo(renameFile);
-				} catch (Exception e) {
-					e.printStackTrace();
-					model.addAttribute("message", "�������� ���� ����");
-					return "common/error";
-				}
-				community.setCom_original_file(fileName);
-				community.setCom_rename_file(renameFileName);
-			}
-		}
-
-		// -----------------------------------------
-		// ���� �޼ҵ� �����Ű�� ����޾Ƽ� ����|���� ������ ��������
-		if (CommunityService.updateOrigin(community) > 0) {
-			// ���� ���� ������ �󼼺��� ������ �������� ���
-			model.addAttribute("page", page);
-			model.addAttribute("com_num", community.getCom_num());
-			return "redirect:cdetail.do";
-		} else {
-			model.addAttribute("message", community.getCom_num() + "�� ���� ���� ����");
-			return "commom/error";
-		}
-	}
+	   @RequestMapping(value="coriginup.do", method=RequestMethod.POST)
+	   public String communityUpdateMethod(Community community, HttpServletRequest request, Model model,
+	         @RequestParam(name="page", required=false) String page,
+	         @RequestParam(name="delFlag", required=false) String delFlag, 
+	         @RequestParam(name="upfile", required=false) MultipartFile mfile){
+	            //업로드된 파일 저장 폴더 지정하기
+	            String savePath = request.getSession().getServletContext().getRealPath("resources/community_upfiles");
+	            
+	            //첨부 파일 수정 처리 ---------------------------
+	            //원래 첨부파일이 있는데 삭제를 선택한 경우
+	            if(community.getCom_original_file() != null && delFlag != null && delFlag.equals("yes")) {
+	               //저장 폴더에서 해당 파일을 삭제함
+	               new File(savePath + "\\" + community).delete();
+	               //board 의 파일정보도 제거함
+	               community.setCom_original_file(null);
+	               community.setCom_rename_file(null);
+	      
+	            }
+	            //새로운 첨부파일이 있을 때 
+	            if(!mfile.isEmpty()) {
+	               //저장 폴더의 이전 파일을 삭제함
+	               if(community.getCom_original_file() !=null) {
+	                  //저장 폴더에서 해당 파일을 삭제함
+	                  new File(savePath + "\\" + community.getCom_rename_file()).delete();
+	                  //community 의 파일정보도 제거함
+	                  community.setCom_original_file(null);
+	                  community.setCom_rename_file(null);
+	               }
+	               //이전 첨부파일이 없는 경우 --------------------
+	               String fileName = mfile.getOriginalFilename();
+	               //이름 바꾸기 처리 : 년 월 시 분 초.확장자
+	               if(fileName != null && fileName.length() > 0) {
+	                  //바꿀 파일명에 대한 문자열 만들기
+	                  //공지글 등록 요청시점의 날짜정보를 이용함
+	                  SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	                  //변경할 파일 이름 만들기
+	                  String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
+	                  //원본 파일의 확장자를 추출해서, 변경 파일명에 붙여줌
+	                  renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
+	                  
+	                  //파일객체 만들기
+	                  File originFile = new File(savePath + "\\" + fileName);
+	                  File renameFile = new File(savePath + "\\" + renameFileName);
+	                  
+	                  //업로드 파일 저장시키고, 바로 이름바꾸기 실행함
+	                  try {
+	                     mfile.transferTo(renameFile);
+	                  } catch (Exception e) {
+	                     e.printStackTrace();
+	                     model.addAttribute("message", "전송파일 저장 실패");
+	                     return "common/error";
+	                  }
+	                  community.setCom_original_file(fileName);
+	                  community.setCom_rename_file(renameFileName);
+	               }
+	               }
+	            
+	            // -----------------------------------------
+	            //서비스 메소드 실행시키고 결과받아서 성공|실패 페이지 내보내기
+	            if(CommunityService.updateOrigin(community) > 0) {
+	               //원글 수정 성공시 상세보기 페이지 내보내는 경우
+	               model.addAttribute("page", page);
+	               model.addAttribute("com_num", community.getCom_num());
+	               return "redirect:cdetail.do";
+	            }else {
+	               model.addAttribute("message", community.getCom_num() + "번 공지 수정 실패");
+	               return "commom/error";
+	            }
+	         }
 
 }
